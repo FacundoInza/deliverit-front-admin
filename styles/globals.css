@@ -1,0 +1,8 @@
+/* Importar la fuente Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Establecer la fuente Poppins como la fuente por defecto */
+html,
+body {
+    font-family: 'Poppins', sans-serif;
+}
