@@ -164,7 +164,7 @@ const Admin: FC = () => {
                     <ArrowsSliderDate />
                 </div>
             </div>
-            <div className='flex justify-center mt-8 mx-8'>
+            <div className='flex justify-center mt-8 mx-16'>
                 <DateDropdownCard startDate={initialStartDate} />
             </div>
         </>

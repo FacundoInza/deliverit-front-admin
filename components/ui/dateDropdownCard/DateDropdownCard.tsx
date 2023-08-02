@@ -32,8 +32,8 @@ export const DateDropdownCard: React.FC<DateDropdownCard> = ({ startDate }) => {
             <div
                 className='w-8 h-8 mt-1 flex align-items-center pointer-events-none mx-100 absolute'
                 style={{
-                    marginLeft: 'calc(100vw - 116.5px)',
-                    marginRight: 'calc(100vw - 116.5px)',
+                    marginLeft: 'calc(100vw - 30px)',
+                    marginRight: 'calc(100vw - 203px)',
                 }}
             >
                 <DatePickerArrow />
