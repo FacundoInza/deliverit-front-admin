@@ -1,58 +1,40 @@
 'use client';
 
-import React, { FC, FormEvent, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import MainButton from '../../commons/buttons/MainButton';
+import { useForm } from 'react-hook-form';
 import {
     RiUserLine,
     RiLockFill,
     RiEyeFill,
     RiEyeOffFill,
 } from 'react-icons/ri';
-import { useForm } from '../../../hooks/useForm';
-
 import Link from 'next/link';
 
-// type SignUpParams = {
-//     email: string;
-//     password: string;
-//     username: string;
-// };
-
-// const signUp = async (params: SignUpParams) => {
-//     try {
-//         const user = await Auth.signUp(params);
-//         if (user.userConfirmed) {
-//             window.location.href = '/';
-//         } else {
-//             window.location.href = '/confirm';
-//         }
-//         console.log(user);
-//     } catch (error) {
-//         console.log(error);
-//         alert(error);
-//         window.location.href = '/';
-//     }
-// };
+interface FormInputs {
+    email: string;
+    password: string;
+    repeatPassword: string;
+}
 
 export const SignupForm: FC = () => {
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm<FormInputs>();
     const [showPassword, setShowPassword] = useState(false);
     const [showRepeatPassword, setShowRepeatPassword] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    const { values, handleChange } = useForm({
-        email: '',
-        password: '',
-        repeatPassword: '',
-    });
-
-    const handleSubmit = async (event: FormEvent) => {
-        const { email, password } = values;
-        event.preventDefault();
-        console.log(values);
-        console.log(email);
-        console.log(password);
+    const onSubmit = (data: FormInputs) => {
+        console.log(data);
         setIsAuthenticated(true);
     };
+
+    const password = useRef({});
+    password.current = watch('password', '');
 
     return (
         <>
@@ -63,24 +45,35 @@ export const SignupForm: FC = () => {
                         className='space-y-6'
                         action='#'
                         method='POST'
-                        onSubmit={handleSubmit}
+                        onSubmit={handleSubmit(onSubmit)}
                     >
                         <div>
                             <div className='relative mt-2'>
                                 <input
                                     placeholder='your@email.com'
                                     id='email'
-                                    name='email'
                                     type='email'
-                                    value={values.email}
                                     autoComplete='email'
                                     required
-                                    onChange={handleChange}
+                                    {...register('email', {
+                                        required: 'Email is required',
+                                        pattern: {
+                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                            message: 'Invalid email address',
+                                        },
+                                    })}
                                     className='block w-full rounded-lg border-1 px-12 py-3.5 text-primary shadow-sm ring-1 ring-inset ring-white placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-500 sm:text-sm sm:leading-6 bg-transparent'
                                 />
-                                <span className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400'>
+                                <span className='absolute left-3 top-1/2 transform -translate-y-6 text-gray-400'>
                                     <RiUserLine size={25} />
                                 </span>
+                                <div style={{ height: '20px' }}>
+                                    {errors.email && (
+                                        <p className='text-red-400 text-right pe-2'>
+                                            {errors.email.message}
+                                        </p>
+                                    )}
+                                </div>
                             </div>
                         </div>
 
@@ -88,20 +81,25 @@ export const SignupForm: FC = () => {
                             <div className='relative mt-2'>
                                 <input
                                     id='password'
-                                    name='password'
                                     type={showPassword ? 'text' : 'password'}
-                                    value={values.password}
                                     placeholder='YourUltraSecretPassword'
                                     autoComplete='current-password'
                                     required
-                                    onChange={handleChange}
+                                    {...register('password', {
+                                        required: 'Password is required',
+                                        minLength: {
+                                            value: 8,
+                                            message:
+                                                'Password must be at least 8 characters',
+                                        },
+                                    })}
                                     className='block w-full rounded-lg border-1 px-12 py-3.5 text-primary shadow-sm ring-1 ring-inset ring-white placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-500 sm:text-sm sm:leading-6 bg-transparent'
                                 />
-                                <span className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400'>
+                                <span className='absolute left-3 top-1/2 transform -translate-y-6 text-gray-400'>
                                     <RiLockFill size={25} />
                                 </span>
                                 <span
-                                    className='absolute z-50 right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer'
+                                    className='absolute z-50 right-3 top-1/2 transform -translate-y-6 text-gray-400 cursor-pointer'
                                     onClick={() =>
                                         setShowPassword(!showPassword)
                                     }
@@ -112,28 +110,43 @@ export const SignupForm: FC = () => {
                                         <RiEyeFill size={25} />
                                     )}
                                 </span>
+                                <div style={{ height: '20px' }}>
+                                    {errors.password && (
+                                        <p className='text-red-400 text-right pe-2'>
+                                            {errors.password.message}
+                                        </p>
+                                    )}
+                                </div>
                             </div>
                         </div>
                         <div>
                             <div className='relative mt-2'>
                                 <input
                                     id='repeatPassword'
-                                    name='repeatPassword'
                                     type={
                                         showRepeatPassword ? 'text' : 'password'
                                     }
-                                    value={values.repeatPassword}
                                     placeholder='YourUltraSecretPassword'
                                     autoComplete='current-password'
                                     required
-                                    onChange={handleChange}
+                                    {...register('repeatPassword', {
+                                        required: 'Please confirm password.',
+                                        minLength: {
+                                            value: 8,
+                                            message:
+                                                'Password must be at least 8 characters',
+                                        },
+                                        validate: (value) =>
+                                            value === password.current ||
+                                            'Passwords do not match',
+                                    })}
                                     className='block w-full rounded-lg border-1 px-12 py-3.5 text-primary shadow-sm ring-1 ring-inset ring-white placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-500 sm:text-sm sm:leading-6 bg-transparent'
                                 />
-                                <span className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400'>
+                                <span className='absolute left-3 top-1/2 transform -translate-y-6 text-gray-400'>
                                     <RiLockFill size={25} />
                                 </span>
                                 <span
-                                    className='absolute z-50 right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer'
+                                    className='absolute z-50 right-3 top-1/2 transform -translate-y-6 text-gray-400 cursor-pointer'
                                     onClick={() =>
                                         setShowRepeatPassword(
                                             !showRepeatPassword
@@ -146,16 +159,18 @@ export const SignupForm: FC = () => {
                                         <RiEyeFill size={25} />
                                     )}
                                 </span>
+                                <div style={{ height: '20px' }}>
+                                    {errors.repeatPassword && (
+                                        <p className='text-red-400 text-right pe-2'>
+                                            {errors.repeatPassword.message}
+                                        </p>
+                                    )}
+                                </div>
                             </div>
                         </div>
                         <div className='space-y-6'>
                             <div className='mt-20 '>
-                                <Link href='/confirm'>
-                                    <MainButton
-                                        text='Create Account'
-                                        btnGreen
-                                    />
-                                </Link>
+                                <MainButton text='Create Account' btnGreen />
                             </div>
                             <div>
                                 <div className='flex items-center justify-center'>

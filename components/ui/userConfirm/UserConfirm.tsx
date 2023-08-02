@@ -1,27 +1,25 @@
 'use client';
 
 import Image from 'next/image';
-import React, { FormEvent } from 'react';
+import React, { FC } from 'react';
 import logo from '../../../assets/deliverit-full.png';
 import MainButton from '../../commons/buttons/MainButton';
 import { RiLockFill } from 'react-icons/ri';
-import { useForm } from 'hooks/useForm';
+import { useForm } from 'react-hook-form';
 
-export const UserConfirm = () => {
-    const { values, handleChange } = useForm({
-        code: '',
-    });
+interface CodeInput {
+    code: string;
+}
 
-    const handleSubmit = async (event: FormEvent) => {
-        const { code } = values;
-        const params = {
-            code,
-        };
-        event.preventDefault();
-        console.log(code);
-        console.log(params);
-        // await signUp(params);
-        // setIsAuthenticated(true);
+export const UserConfirm: FC = () => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<CodeInput>();
+
+    const onSubmit = (data: CodeInput) => {
+        console.log(data);
     };
 
     return (
@@ -44,23 +42,26 @@ export const UserConfirm = () => {
                     className='space-y-6'
                     action='#'
                     method='POST'
-                    onSubmit={handleSubmit}
+                    onSubmit={handleSubmit(onSubmit)}
                 >
                     <div>
                         <div className='relative mt-2'>
                             <input
                                 id='code'
-                                name='code'
                                 type='text'
                                 placeholder='XXXXXX'
                                 autoComplete='current-code'
-                                required
-                                onChange={handleChange}
+                                {...register('code', { required: true })}
                                 className='block w-full rounded-lg border-1 px-12 py-3.5 text-white shadow-sm ring-1 ring-inset ring-white placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-500 sm:text-xl text-center font-bold sm:leading-6 bg-transparent'
                             />
                             <span className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400'>
                                 <RiLockFill size={25} />
                             </span>
+                            {errors.code && (
+                                <p className='text-red-400 text-right pe-2'>
+                                    {'Code is required'}
+                                </p>
+                            )}
                         </div>
                         <div className='flex items-center justify-end mt-2'>
                             <div className='text-base'>
