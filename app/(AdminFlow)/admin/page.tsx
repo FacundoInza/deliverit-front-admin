@@ -40,6 +40,8 @@ const Admin: FC = () => {
         dayNumbers.push(date.getDate());
     }
 
+    const avatarArray = [avatarImage, avatarImage];
+
     return (
         <>
             <GeneralCard title={'Delivery Management'}>
@@ -110,6 +112,7 @@ const Admin: FC = () => {
                     <AdminDetailsCard
                         title='Delivery Staff'
                         subtitle='2/10 active'
+                        avatars={avatarArray}
                     />
                     <AdminDetailsCard
                         title='Packages'
