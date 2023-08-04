@@ -30,6 +30,7 @@ export const DateDropdownCard: React.FC<DateDropdownCard> = ({ startDate }) => {
                 showYearDropdown
                 showMonthDropdown
                 className={styles.datepicker}
+                maxDate={new Date()}
             />
             <div
                 className='w-6 h-6 mt-2 flex align-items-center pointer-events-none absolute'
