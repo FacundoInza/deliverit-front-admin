@@ -1,0 +1,70 @@
+.card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card .percent {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 115px;
+    height: 115px;
+}
+
+.percent svg {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    transform: rotate(270deg);
+}
+
+.percent svg circle {
+    width: 100%;
+    height: 100%;
+    fill: transparent;
+    stroke-width: 9;
+    stroke: #f2f2f2;
+    transform: translate(5px, 5px);
+}
+
+.dot::before {
+    content: '';
+    left: -5px;
+    left: 50%;
+    transform: translate(-50%);
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #80ed99;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+}
+
+.number {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.number h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #22577a;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

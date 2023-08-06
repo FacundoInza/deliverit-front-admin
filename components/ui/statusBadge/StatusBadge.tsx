@@ -11,6 +11,7 @@ interface ColorMap {
         ring: string;
     };
 }
+
 const colorMap: ColorMap = {
     delivered: {
         bg: 'bg-delivered',
@@ -42,7 +43,7 @@ export const StatusBadge: React.FC<BadgeProps> = ({ status }) => {
     }
     return (
         <span
-            className={`text-lg font-bold inline-flex items-center rounded-full ${color.bg} px-5 py-1 text-xs font-medium ${color.text} ring-1 ring-inset ${color.ring}/20`}
+            className={`text-lg text-primary font-bold inline-flex items-center rounded-full ${color.bg} px-5 py-0.5 text-sm font-semibold ${color.text} `}
         >
             {status.toLocaleUpperCase()}
         </span>
