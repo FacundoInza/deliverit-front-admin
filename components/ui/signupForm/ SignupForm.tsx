@@ -62,14 +62,14 @@ export const SignupForm: FC = () => {
                                             message: 'Invalid email address',
                                         },
                                     })}
-                                    className='block w-full rounded-lg border-1 px-12 py-3.5 text-primary shadow-sm ring-1 ring-inset ring-white placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-500 sm:text-sm sm:leading-6 bg-transparent'
+                                    className='block w-full rounded-lg border-1 px-12 py-3.5 text-primary shadow-sm ring-1 ring-inset ring-primary placeholder:text-gray-400 focus:ring-white focus:ring-inset focus:ring-gray-100 sm:text-sm sm:leading-6 bg-transparent'
                                 />
                                 <span className='absolute left-3 top-1/2 transform -translate-y-6 text-gray-400'>
                                     <RiUserLine size={25} />
                                 </span>
                                 <div style={{ height: '20px' }}>
                                     {errors.email && (
-                                        <p className='text-red-400 text-right pe-2'>
+                                        <p className='text-red-400 text-right pe-2 text-sm'>
                                             {errors.email.message}
                                         </p>
                                     )}
@@ -93,7 +93,7 @@ export const SignupForm: FC = () => {
                                                 'Password must be at least 8 characters',
                                         },
                                     })}
-                                    className='block w-full rounded-lg border-1 px-12 py-3.5 text-primary shadow-sm ring-1 ring-inset ring-white placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-500 sm:text-sm sm:leading-6 bg-transparent'
+                                    className='block w-full rounded-lg border-1 px-12 py-3.5 text-primary shadow-sm ring-1 ring-inset ring-primary placeholder:text-gray-400 focus:ring-white focus:ring-inset focus:ring-gray-100 sm:text-sm sm:leading-6 bg-transparent'
                                 />
                                 <span className='absolute left-3 top-1/2 transform -translate-y-6 text-gray-400'>
                                     <RiLockFill size={25} />
@@ -112,7 +112,7 @@ export const SignupForm: FC = () => {
                                 </span>
                                 <div style={{ height: '20px' }}>
                                     {errors.password && (
-                                        <p className='text-red-400 text-right pe-2'>
+                                        <p className='text-red-400 text-right pe-2 text-sm'>
                                             {errors.password.message}
                                         </p>
                                     )}
@@ -140,7 +140,7 @@ export const SignupForm: FC = () => {
                                             value === password.current ||
                                             'Passwords do not match',
                                     })}
-                                    className='block w-full rounded-lg border-1 px-12 py-3.5 text-primary shadow-sm ring-1 ring-inset ring-white placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-500 sm:text-sm sm:leading-6 bg-transparent'
+                                    className='block w-full rounded-lg border-1 px-12 py-3.5 text-primary shadow-sm ring-1 ring-inset ring-primary placeholder:text-gray-400 focus:ring-white focus:ring-inset focus:ring-gray-100 sm:text-sm sm:leading-6 bg-transparent'
                                 />
                                 <span className='absolute left-3 top-1/2 transform -translate-y-6 text-gray-400'>
                                     <RiLockFill size={25} />
@@ -161,7 +161,7 @@ export const SignupForm: FC = () => {
                                 </span>
                                 <div style={{ height: '20px' }}>
                                     {errors.repeatPassword && (
-                                        <p className='text-red-400 text-right pe-2'>
+                                        <p className='text-red-400 text-right pe-2 text-sm'>
                                             {errors.repeatPassword.message}
                                         </p>
                                     )}

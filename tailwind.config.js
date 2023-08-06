@@ -39,7 +39,15 @@ module.exports = {
             borderWidth: {
                 0.5: '0.5px', // Ancho de borde personalizado
             },
+            outline: {
+                none: '0',
+            },
+        },
+        variants: {
+            extend: {
+                outline: ['focus'],
+            },
         },
     },
-    plugins: [require('@tailwindcss/forms')],
+    plugins: [],
 };
