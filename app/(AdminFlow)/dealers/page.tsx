@@ -26,6 +26,7 @@ const DealerPage: FC = () => {
                 pagination={{
                     clickable: true,
                 }}
+                className='mb-12 mt-12'
             >
                 {Array.from({ length: totalGroups }).map((_, groupIndex) => (
                     <SwiperSlide key={groupIndex}>
