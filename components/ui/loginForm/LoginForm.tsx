@@ -70,14 +70,14 @@ export const LoginForm: FC = () => {
                                             message: 'invalid email address',
                                         },
                                     })}
-                                    className='block w-full rounded-lg border-1 px-12 py-3.5 text-white shadow-sm ring-1 ring-inset ring-white placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-500 sm:text-sm sm:leading-6 bg-transparent'
+                                    className='block w-full rounded-lg border-1 px-12 py-3.5 text-white shadow-sm ring-1 ring-inset ring-white focus:ring-white placeholder:text-gray-400  sm:text-sm sm:leading-6 bg-transparent'
                                 />
                                 <span className='absolute left-3 top-1/2 transform -translate-y-6 text-gray-400'>
                                     <RiUserLine size={25} />
                                 </span>
                                 <div style={{ height: '20px' }}>
                                     {errors.email && (
-                                        <p className='text-red-400 text-right pe-2'>
+                                        <p className='text-red-400 text-right pe-2 text-sm'>
                                             {errors.email.message}
                                         </p>
                                     )}
@@ -101,7 +101,7 @@ export const LoginForm: FC = () => {
                                                 'Password must be at least 8 characters long',
                                         },
                                     })}
-                                    className='block w-full rounded-lg border-1 px-12 py-3.5 text-white shadow-sm ring-1 ring-inset ring-white placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-500 sm:text-sm sm:leading-6 bg-transparent'
+                                    className='block w-full rounded-lg border-1 px-12 py-3.5 text-white shadow-sm ring-1 ring-inset ring-white focus:ring-white placeholder:text-gray-100  sm:text-sm sm:leading-6 bg-transparent'
                                 />
                                 <span className='absolute left-3 top-1/2 transform -translate-y-6 text-gray-400'>
                                     <RiLockFill size={25} />
@@ -120,7 +120,7 @@ export const LoginForm: FC = () => {
                                 </span>
                                 <div style={{ height: '20px' }}>
                                     {errors.password && (
-                                        <p className='text-red-400 text-right pe-2'>
+                                        <p className='text-red-400 text-right pe-2 text-sm'>
                                             {errors.password.message}
                                         </p>
                                     )}
