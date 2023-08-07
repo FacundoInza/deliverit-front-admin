@@ -13,7 +13,7 @@ interface ColorMap {
 }
 
 const colorMap: ColorMap = {
-    delivered: {
+    active: {
         bg: 'bg-delivered',
         text: 'text-green-700',
         ring: 'ring-green-600',
