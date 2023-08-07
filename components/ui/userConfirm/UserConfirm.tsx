@@ -6,6 +6,7 @@ import logo from '../../../assets/deliverit-full.png';
 import MainButton from '../../commons/buttons/MainButton';
 import { RiLockFill } from 'react-icons/ri';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 
 interface CodeInput {
     code: string;
@@ -17,9 +18,13 @@ export const UserConfirm: FC = () => {
         handleSubmit,
         formState: { errors },
     } = useForm<CodeInput>();
+    const router = useRouter();
 
     const onSubmit = (data: CodeInput) => {
         console.log(data);
+        if (!errors.code) {
+            router.push('/');
+        }
     };
 
     return (

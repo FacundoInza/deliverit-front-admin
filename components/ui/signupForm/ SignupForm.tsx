@@ -10,6 +10,7 @@ import {
     RiEyeOffFill,
 } from 'react-icons/ri';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface FormInputs {
     email: string;
@@ -24,13 +25,18 @@ export const SignupForm: FC = () => {
         watch,
         formState: { errors },
     } = useForm<FormInputs>();
+    const router = useRouter();
+
     const [showPassword, setShowPassword] = useState(false);
     const [showRepeatPassword, setShowRepeatPassword] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const onSubmit = (data: FormInputs) => {
         console.log(data);
-        setIsAuthenticated(true);
+        if (!errors.email && !errors.password && !errors.repeatPassword) {
+            setIsAuthenticated(true);
+            router.push('/confirm');
+        }
     };
 
     const password = useRef({});

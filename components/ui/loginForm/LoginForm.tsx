@@ -12,6 +12,7 @@ import {
     RiEyeFill,
     RiEyeOffFill,
 } from 'react-icons/ri';
+import { useRouter } from 'next/navigation';
 
 interface FormInputs {
     email: string;
@@ -24,18 +25,23 @@ export const LoginForm: FC = () => {
         handleSubmit,
         formState: { errors },
     } = useForm<FormInputs>();
+    const router = useRouter();
 
     const [showPassword, setShowPassword] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const onSubmit = (data: FormInputs) => {
         console.log(data);
-        setIsAuthenticated(true);
+        if (!errors.email && !errors.password) {
+            setIsAuthenticated(true);
+            router.push('/admin');
+        }
     };
+
+    console.log(isAuthenticated);
 
     return (
         <>
-            {isAuthenticated && <div>User Authenticated</div>}
             <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
                 <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
                     <Image
@@ -101,7 +107,7 @@ export const LoginForm: FC = () => {
                                                 'Password must be at least 8 characters long',
                                         },
                                     })}
-                                    className='block w-full rounded-lg border-1 px-12 py-3.5 text-white shadow-sm ring-1 ring-inset ring-white focus:ring-white placeholder:text-gray-100  sm:text-sm sm:leading-6 bg-transparent'
+                                    className='block w-full rounded-lg border-1 px-12 py-3.5 text-white shadow-sm ring-1 ring-inset ring-white focus:ring-white placeholder:text-gray-400  sm:text-sm sm:leading-6 bg-transparent'
                                 />
                                 <span className='absolute left-3 top-1/2 transform -translate-y-6 text-gray-400'>
                                     <RiLockFill size={25} />
