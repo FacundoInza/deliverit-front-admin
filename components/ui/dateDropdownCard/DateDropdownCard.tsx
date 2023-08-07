@@ -33,7 +33,7 @@ export const DateDropdownCard: React.FC<DateDropdownCard> = ({ startDate }) => {
                 maxDate={new Date()}
             />
             <div
-                className='w-6 h-6 mt-2 flex align-items-center pointer-events-none absolute'
+                className='w-6 h-6 flex align-items-center pointer-events-none absolute'
                 style={{
                     marginLeft: 'calc(100vw - 30px)',
                     marginRight: 'calc(100vw - 203px)',

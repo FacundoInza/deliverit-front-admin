@@ -44,7 +44,7 @@ export const AdminDetailsCard: React.FC<AdminDetailsCardProps> = ({
                     </p>
                 </div>
             </div>
-            <div className='ml-2 flex items-end h-12 mt-28'>
+            <div className='ml-2 flex items-end h-12 mt-28 max-w-[70px]'>
                 <MainButton text='See more' btnGreen={true} />
             </div>
         </div>
