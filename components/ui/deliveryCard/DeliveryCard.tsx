@@ -2,8 +2,10 @@
 
 import React from 'react';
 import { StatusBadge } from '../statusBadge/StatusBadge';
-import { MdOutlineDeliveryDining } from 'react-icons/md';
-import { TiDeleteOutline } from 'react-icons/ti';
+/* import { MdOutlineDeliveryDining } from 'react-icons/md'; */
+import { PiPackageThin } from 'react-icons/pi';
+/* import { TiDeleteOutline } from 'react-icons/ti'; */
+import { RiDeleteBin6Line } from 'react-icons/ri';
 import Link from 'next/link';
 
 interface CardProps {
@@ -35,7 +37,7 @@ export const DeliveryCard: React.FC<CardProps> = ({
                 >
                     <div className='ml-1 w-1/8'>
                         <span className={colorMap[status]}>
-                            <MdOutlineDeliveryDining size={40} />
+                            <PiPackageThin size={40} />
                         </span>
                     </div>
                     <div className='flex-grow flex-col just space-y-1 border-l border-dashed border-gray-400 mx-1 px-2'>
@@ -49,7 +51,7 @@ export const DeliveryCard: React.FC<CardProps> = ({
                         {showCancel ? (
                             <div className='mt-2 flex flex-col justify-end'>
                                 <button className='flex justify-end text-red-500 hover:text-red-700'>
-                                    <TiDeleteOutline color='red' size={30} />
+                                    <RiDeleteBin6Line color='red' size={30} />
                                 </button>
                             </div>
                         ) : (
