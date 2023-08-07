@@ -20,7 +20,7 @@ export const DropdownCard: React.FC<DropdownCardProps> = ({
 }) => {
     return (
         <>
-            <div className='mt-2 ml-4 mr-4 lg:ml-80 lg:mr-80 py-2 px-2 bg-white rounded-xl border-0.5 border-primary'>
+            <div className='mt-2 ml-4 mr-4 lg:ml-60 lg:mr-60 py-2 px-2 bg-white rounded-xl border-0.5 border-primary'>
                 <div className='text-center space-y-1 sm:text-left flex justify-between'>
                     <p className='text-xl my-2 font-semibold text-primary'>
                         {title}{' '}
