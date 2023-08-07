@@ -2,6 +2,7 @@ import React from 'react';
 import { CircularImage } from '@components/commons/circular-image/CircularImage';
 import MainButton from '@components/commons/buttons/MainButton';
 import { CircularProgress } from '@components/commons/circular-progress/CircularProgress';
+import Link from 'next/link';
 
 interface AdminDetailsCardProps {
     title: string;
@@ -45,7 +46,16 @@ export const AdminDetailsCard: React.FC<AdminDetailsCardProps> = ({
                 </div>
             </div>
             <div className='ml-2 flex items-end h-12 mt-28'>
-                <MainButton text='See more' btnGreen={true} />
+                {/* if title === "delivery card" link the user to /dealers */}
+                <Link
+                    href={
+                        title === 'Delivery Staff'
+                            ? '/dealers'
+                            : '/manage-packages'
+                    }
+                >
+                    <MainButton text='See more' btnGreen={true} />
+                </Link>
             </div>
         </div>
     );

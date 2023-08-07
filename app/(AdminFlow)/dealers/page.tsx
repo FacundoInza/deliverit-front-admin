@@ -10,6 +10,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
+import Link from 'next/link';
 
 const DealerPage: FC = () => {
     const { allDealers } = useAppSelector((state) => state.dealers);
@@ -36,7 +37,14 @@ const DealerPage: FC = () => {
                                 (groupIndex + 1) * groupSize
                             )
                             .map((dealer, subIndex) => (
-                                <DealerCard dealer={dealer} key={subIndex} />
+                                // Change href Link when dinamic routes are ready
+
+                                <Link href='/admin/workers' key={groupIndex}>
+                                    <DealerCard
+                                        dealer={dealer}
+                                        key={subIndex}
+                                    />{' '}
+                                </Link>
                             ))}
                     </SwiperSlide>
                 ))}

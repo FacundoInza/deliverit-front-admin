@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { GeneralCard } from '../../../components/ui/generalCard/GeneralCard';
 import { DeliveryCard } from '../../../components/ui/deliveryCard/DeliveryCard';
 import { AiFillPlusCircle } from 'react-icons/ai';
+import Link from 'next/link';
 
 const InitWorkDay: FC = () => {
     const dummyData = [
@@ -77,7 +78,9 @@ const InitWorkDay: FC = () => {
                     ))}
                 <div className='flex'>
                     <div className='ml-auto  px-1 py-5 '>
-                        <AiFillPlusCircle size={50} color='#80ED99' />
+                        <Link href='/add-package'>
+                            <AiFillPlusCircle size={50} color='#80ED99' />
+                        </Link>
                     </div>
                 </div>
                 {/* </div> */}
