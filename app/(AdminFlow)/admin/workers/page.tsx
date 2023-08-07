@@ -67,7 +67,7 @@ const Workers: FC = () => {
                             </div>
                         </div>
                     </GeneralCard>
-                    <div className='mt-4'>
+                    <div className='mt-2'>
                         <DropdownCard
                             title='Pending deliveries'
                             subtitle='3 pending'
