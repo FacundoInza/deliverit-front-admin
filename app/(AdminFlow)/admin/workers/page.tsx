@@ -2,7 +2,7 @@
 
 import React, { FC, useState } from 'react';
 import { GeneralCard } from '@components/ui/generalCard/GeneralCard';
-import { DropdownCard } from '@components/ui/dropdownCard/DropdownCard';
+import { DropdownCardFaded } from '@components/ui/dropdownCard/DropdownCardFaded';
 import { DeliveryCard } from '@components/ui/deliveryCard/DeliveryCard';
 import { CircularImage } from '@components/commons/circular-image/CircularImage';
 import { StatusBadge } from '@components/ui/statusBadge/StatusBadge';
@@ -17,17 +17,37 @@ const Workers: FC = () => {
             status: 'pending',
         },
         {
-            deliveryID: '#02A35',
+            deliveryID: '#02A36',
             deliveryAddress: 'Amenabar 2356, CABA',
             status: 'in progress',
         },
         {
-            deliveryID: '#02A35',
+            deliveryID: '#02A37',
             deliveryAddress: 'Amenabar 2356, CABA',
             status: 'inactive',
         },
         {
-            deliveryID: '#02A35',
+            deliveryID: '#02A38',
+            deliveryAddress: 'Amenabar 2356, CABA',
+            status: 'delivered',
+        },
+        {
+            deliveryID: '#02A39',
+            deliveryAddress: 'Amenabar 2356, CABA',
+            status: 'pending',
+        },
+        {
+            deliveryID: '#02A40',
+            deliveryAddress: 'Amenabar 2356, CABA',
+            status: 'in progress',
+        },
+        {
+            deliveryID: '#02A41',
+            deliveryAddress: 'Amenabar 2356, CABA',
+            status: 'inactive',
+        },
+        {
+            deliveryID: '#02A42',
             deliveryAddress: 'Amenabar 2356, CABA',
             status: 'delivered',
         },
@@ -67,8 +87,8 @@ const Workers: FC = () => {
                             </div>
                         </div>
                     </GeneralCard>
-                    <div className='mt-2'>
-                        <DropdownCard
+                    <div className='mt-4'>
+                        <DropdownCardFaded
                             title='Pending deliveries'
                             subtitle='3 pending'
                             expanded={expandedCard === 1}
@@ -90,10 +110,18 @@ const Workers: FC = () => {
                                         showCancel={true}
                                     />
                                 ))}
+                        </DropdownCardFaded>
+
+                        <DropdownCardFaded
+                            title='Delivery history'
+                            subtitle='1 delivered'
+                            expanded={expandedCard === 2}
+                            onExpand={() => handleExpand(2)}
+                        >
                             {dummyData
                                 .filter(
                                     (delivery) =>
-                                        delivery.status !== 'delivered'
+                                        delivery.status === 'delivered'
                                 )
                                 .map((delivery) => (
                                     <DeliveryCard
@@ -102,37 +130,11 @@ const Workers: FC = () => {
                                         deliveryAddress={
                                             delivery.deliveryAddress
                                         }
-                                        status={delivery.status}
+                                        status='delivered'
                                         showCancel={true}
                                     />
                                 ))}
-                        </DropdownCard>
-
-                        <div className='overflow-auto'>
-                            <DropdownCard
-                                title='Delivery history'
-                                subtitle='1 delivered'
-                                expanded={expandedCard === 2}
-                                onExpand={() => handleExpand(2)}
-                            >
-                                {dummyData
-                                    .filter(
-                                        (delivery) =>
-                                            delivery.status === 'delivered'
-                                    )
-                                    .map((delivery) => (
-                                        <DeliveryCard
-                                            key={delivery.deliveryID}
-                                            deliveryID={delivery.deliveryID}
-                                            deliveryAddress={
-                                                delivery.deliveryAddress
-                                            }
-                                            status='delivered'
-                                            showCancel={true}
-                                        />
-                                    ))}
-                            </DropdownCard>
-                        </div>
+                        </DropdownCardFaded>
                     </div>
                 </div>
             </div>
