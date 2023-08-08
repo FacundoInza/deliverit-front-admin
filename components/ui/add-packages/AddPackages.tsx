@@ -12,6 +12,9 @@ import GooglePlacesAutocomplete, {
 import LocationMap from '../locationMap/LocationMap';
 import { ItemQuantity } from '../../commons/item-quantity/ItemQuantity';
 import { useForm } from 'react-hook-form';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 type OptionType = { label: string; value: string };
 type CoordsType = { lat: number; lng: number } | null;
@@ -36,6 +39,8 @@ export const AddPackages: FC = () => {
         formState: { errors },
         setValue: setFormValue,
     } = useForm<FormsData>();
+
+    const apikey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
 
     const handleChange = (newValue: OptionType | null) => {
         setValue(newValue);
@@ -285,7 +290,7 @@ export const AddPackages: FC = () => {
                                 </span>
 
                                 <GooglePlacesAutocomplete
-                                    apiKey='AIzaSyB5B7-ABCm3KQKctgbhqESUjowEp5gIGEU'
+                                    apiKey={apikey}
                                     debounce={1000}
                                     minLengthAutocomplete={3}
                                     selectProps={{
