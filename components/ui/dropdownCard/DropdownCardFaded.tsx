@@ -2,7 +2,6 @@
 
 import 'tailwindcss/tailwind.css';
 import React, { ReactNode, useEffect, useState } from 'react';
-import styles from './DropdownCardFaded.module.css';
 
 interface DropdownCardProps {
     title: string;
@@ -20,6 +19,7 @@ export const DropdownCardFaded: React.FC<DropdownCardProps> = ({
     onExpand,
 }) => {
     const [fadedActive, setFadedActive] = useState(true);
+    const [bottomReference, setBottomReference] = useState(304);
 
     useEffect(() => {
         if (expanded) {
@@ -31,14 +31,24 @@ export const DropdownCardFaded: React.FC<DropdownCardProps> = ({
                 const scrollHeight = totalHeight - visibleHeight;
                 const bottom = scrollHeight - divElement.scrollTop;
 
-                if (bottom != 304) {
+                if (bottom === 0) {
                     setFadedActive(false);
                 } else {
                     setFadedActive(true);
                 }
+                setBottomReference(608 - bottom);
             });
         }
     }, [expanded]);
+
+    const gradientBottom = {
+        WebkitMaskImage: `linear-gradient(to bottom, white 0px, white ${
+            bottomReference - 130
+        }px, transparent ${bottomReference}px)`,
+        maskImage: `linear-gradient(to bottom, white ${
+            bottomReference - 130
+        }px, transparent ${bottomReference}px)`,
+    };
 
     return (
         <>
@@ -79,7 +89,7 @@ export const DropdownCardFaded: React.FC<DropdownCardProps> = ({
                     >
                         <ul
                             id='faded'
-                            className={fadedActive ? styles.fadedStyle : ''}
+                            style={fadedActive ? gradientBottom : {}}
                         >
                             {children}
                         </ul>

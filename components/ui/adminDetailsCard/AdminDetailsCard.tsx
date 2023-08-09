@@ -45,18 +45,15 @@ export const AdminDetailsCard: React.FC<AdminDetailsCardProps> = ({
                     </p>
                 </div>
             </div>
-            <div className='ml-2 flex items-end h-12 mt-28 max-w-[70px]'>
             <Link
-                    href={
-                        title === 'Delivery Staff'
-                            ? '/dealers'
-                            : '/manage-packages'
-                    }
-                >     
-          <MainButton text='See more' btnGreen={true} />
-           </Link>
-
-            </div>
+                href={
+                    title === 'Delivery Staff' ? '/dealers' : '/manage-packages'
+                }
+            >
+                <div className='ml-2 flex items-end h-12 mt-28 max-w-[70px]'>
+                    <MainButton text='See more' btnGreen={true} />
+                </div>
+            </Link>
         </div>
     );
 };
