@@ -19,7 +19,7 @@ const DealerPage: FC = () => {
     const totalGroups = Math.ceil(allDealers.length / groupSize);
 
     return (
-        <GeneralCard title='Dealers'>
+        <GeneralCard title='Workers'>
             <Swiper
                 slidesPerView={1}
                 modules={[Pagination]}

@@ -27,7 +27,7 @@ export const Switch: FC = () => {
                                 isActive
                                     ? 'bg-white border-primary'
                                     : 'bg-gray-400 border-gray-600'
-                            } border border-solid border-2  w-14 h-8 rounded-full`}
+                            } border-solid border-2  w-14 h-8 rounded-full`}
                         ></div>
                         <div
                             className={`dot absolute left-1 top-1 bg-gray-200 w-6 h-6 rounded-full transition-transform duration-300 transform ${
