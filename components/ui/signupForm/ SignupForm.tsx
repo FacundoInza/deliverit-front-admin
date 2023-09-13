@@ -11,12 +11,7 @@ import {
 } from 'react-icons/ri';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-
-interface FormInputs {
-    email: string;
-    password: string;
-    repeatPassword: string;
-}
+import { SignupInputs } from '../../../interfaces/IForms';
 
 export const SignupForm: FC = () => {
     const {
@@ -24,14 +19,14 @@ export const SignupForm: FC = () => {
         handleSubmit,
         watch,
         formState: { errors },
-    } = useForm<FormInputs>();
+    } = useForm<SignupInputs>();
     const router = useRouter();
 
     const [showPassword, setShowPassword] = useState(false);
     const [showRepeatPassword, setShowRepeatPassword] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    const onSubmit = (data: FormInputs) => {
+    const onSubmit = (data: SignupInputs) => {
         console.log(data);
         if (!errors.email && !errors.password && !errors.repeatPassword) {
             setIsAuthenticated(true);

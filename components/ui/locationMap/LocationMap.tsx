@@ -5,6 +5,10 @@ import {
     Marker,
     InfoWindow,
 } from '@react-google-maps/api';
+import dotenv from 'dotenv';
+
+dotenv.config();
+const apikey: string = process.env.NEXT_PUBLIC_GOOGLE_API_KEY!;
 
 const containerStyle = {
     width: '100%',
@@ -27,7 +31,7 @@ const LocationMap: FC<LocationMapProps> = ({
 }: LocationMapProps) => {
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: 'AIzaSyB5B7-ABCm3KQKctgbhqESUjowEp5gIGEU',
+        googleMapsApiKey: apikey,
     });
 
     const [map, setMap] = useState<google.maps.Map | null>(null);
