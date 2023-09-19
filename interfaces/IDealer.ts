@@ -1,9 +1,7 @@
 export interface IDealer {
-    id: string;
-    name: string;
-    lastName: string;
-    workState: string;
-    urlImage: string;
-    totalPackages: number;
-    deliveredPackages: number;
+    workerName: string;
+    workerId: string;
+    status: string;
+    urlImage?: string;
+    percentage: number;
 }

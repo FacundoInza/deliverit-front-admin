@@ -4,10 +4,7 @@ import { IUser } from '../../../interfaces';
 const initialState: IUser = {
     id: '',
     name: '',
-    lastName: '',
-    email: '',
-    picture: '',
-    role: '',
+    urlImage: '',
 };
 
 const userSlice = createSlice({
@@ -15,13 +12,10 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setUser: (state, action) => {
-            const { id, name, lastName, email, picture, role } = action.payload;
+            const { id, name, urlImage } = action.payload;
             state.id = id;
             state.name = name;
-            state.lastName = lastName;
-            state.email = email;
-            state.picture = picture;
-            state.role = role;
+            state.urlImage = urlImage;
         },
     },
 });

@@ -6,9 +6,13 @@ import { DatePickerArrow } from '@components/commons/SVG/DatePickerArrow';
 
 interface DateDropdownCard {
     startDate: Date;
+    setDate: (date: Date) => void;
 }
 
-export const DateDropdownCard: React.FC<DateDropdownCard> = ({ startDate }) => {
+export const DateDropdownCard: React.FC<DateDropdownCard> = ({
+    startDate,
+    setDate,
+}) => {
     const [selected, setSelectedDate] = useState(startDate);
 
     useEffect(() => {
@@ -18,6 +22,7 @@ export const DateDropdownCard: React.FC<DateDropdownCard> = ({ startDate }) => {
     const handleDateChange = (date: Date | null) => {
         if (date) {
             setSelectedDate(date);
+            setDate(date);
         }
     };
 
@@ -36,7 +41,7 @@ export const DateDropdownCard: React.FC<DateDropdownCard> = ({ startDate }) => {
                 className='w-6 h-6 flex align-items-center pointer-events-none absolute'
                 style={{
                     marginLeft: 'calc(100vw - 30px)',
-                    marginRight: 'calc(100vw - 203px)',
+                    marginRight: 'calc(100vw - 153px)',
                 }}
             >
                 <DatePickerArrow />

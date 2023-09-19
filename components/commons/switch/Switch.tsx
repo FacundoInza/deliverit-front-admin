@@ -6,7 +6,6 @@ export const Switch: FC = () => {
     const [isActive, setIsActive] = useState(false);
 
     const toggle = () => {
-        console.log('Activated!');
         setIsActive(!isActive);
     };
 

@@ -1,19 +1,48 @@
 'use client';
 
-import React, { FC, useState, useRef } from 'react';
+import React, { FC, useState, useRef, useEffect } from 'react';
 import { GeneralCard } from '@components/ui/generalCard/GeneralCard';
 import { AdminDetailsCard } from '@components/ui/adminDetailsCard/AdminDetailsCard';
 import { CircularImage } from '@components/commons/circular-image/CircularImage';
-import avatarImage from '@components/commons/circular-image/imagen.png';
 import { SliderDateBox } from '@components/commons/slider-date-box/SliderDateBox';
 import { ArrowsSliderDate } from '@components/commons/SVG/ArrowsSliderDate';
 import { DateDropdownCard } from '@components/ui/dateDropdownCard/DateDropdownCard';
-
+import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
+import { filteredDate } from '../../../redux/features/filtered-date/filteredDateSelector';
+import { adminUser } from '../../../redux/features/user/userSelector';
+import { useAppSelector } from '../../../hooks/useAppSelector';
+import { useAppDispatch } from '../../../hooks/useAppDispatch';
+import { setFilteredDate } from '../../../redux/features/filtered-date/filteredDateSlice';
 
 const Admin: FC = () => {
-    const [initialStartDate, setInitialStartDate] = useState(new Date());
+    const selectedDate = useAppSelector(filteredDate);
+    const adminUserData = useAppSelector(adminUser);
+    const dispatch = useAppDispatch();
+
+    const [dailyMetrics, setDailyMetrics] = useState({
+        availableOrders: 0,
+        deliveredOrders: 0,
+        availableWorkers: 0,
+        activeWorkers: { total: 0, images: [{ id: '', urlImage: '' }] },
+    });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const { data } = await axios.get(
+                `http://localhost:5000/api/admin/${selectedDate.toISOString()}`
+            );
+            setDailyMetrics({
+                availableOrders: data.data.availableOrders,
+                deliveredOrders: data.data.deliveredOrders,
+                availableWorkers: data.data.availableWorkers,
+                activeWorkers: data.data.activeWorkers,
+            });
+        };
+
+        fetchData();
+    }, [selectedDate]);
 
     const swiperRef = useRef<SwiperInstance | null>(null);
 
@@ -27,7 +56,7 @@ const Admin: FC = () => {
     const handleClick = (index: number) => {
         const today = new Date();
         today.setDate(today.getDate() + index - 30);
-        setInitialStartDate(today);
+        dispatch(setFilteredDate(today));
     };
 
     const daysOfTheWeek: Array<string> = [];
@@ -40,14 +69,18 @@ const Admin: FC = () => {
         dayNumbers.push(date.getDate());
     }
 
-    const avatarArray = [avatarImage, avatarImage];
+    //const avatarArray = [avatarImage, avatarImage];
+
+    const avatarArray = dailyMetrics.activeWorkers.images.map(
+        (image) => image.urlImage
+    );
 
     return (
         <>
             <GeneralCard title={'Delivery Management'}>
                 <div className='flex justify-center'>
                     <CircularImage
-                        src={avatarImage}
+                        src={adminUserData.urlImage}
                         alt={'Avatar image'}
                         diameter={57}
                     />
@@ -111,16 +144,25 @@ const Admin: FC = () => {
                     <p className='text-primary font-extrabold my-2'>Details</p>
                     <AdminDetailsCard
                         title='Delivery Staff'
-                        subtitle='2/10 active'
+                        subtitle={`${dailyMetrics.activeWorkers}/${dailyMetrics.availableWorkers} active`}
                         avatars={avatarArray}
+                        number1={dailyMetrics.activeWorkers.total}
+                        number2={dailyMetrics.availableWorkers}
                     />
                     <AdminDetailsCard
                         title='Packages'
-                        subtitle='16/20 delivered'
+                        subtitle={`${dailyMetrics.deliveredOrders}/${dailyMetrics.availableOrders} delivered`}
+                        number1={dailyMetrics.deliveredOrders}
+                        number2={dailyMetrics.availableOrders}
                     />
 
-                    <div className='flex justify-center absolute right-12 top-2'>
-                        <DateDropdownCard startDate={initialStartDate} />
+                    <div className='flex justify-center absolute right-12 top-3'>
+                        <DateDropdownCard
+                            startDate={selectedDate}
+                            setDate={(date: Date) =>
+                                dispatch(setFilteredDate(date))
+                            }
+                        />
                     </div>
                 </div>
             </GeneralCard>

@@ -1,6 +1,11 @@
 export interface IDailyMetrics {
-    date: string;
-    activeWorkers: number;
-    deliveriesQuantity: number;
-    deliveriesCompletedQuantity: number;
+    deliveredOrders: number;
+    availableOrders: number;
+    availableWorkers: number;
+    activeWorkers: { total: number; images: Array<IWorkerImages> };
+}
+
+interface IWorkerImages {
+    id: string;
+    urlImage: string;
 }
