@@ -7,19 +7,26 @@ import Link from 'next/link';
 interface AdminDetailsCardProps {
     title: string;
     subtitle: string;
-    avatars?: Array<object>;
+    avatars?: Array<string>;
+    number1: number;
+    number2: number;
 }
 
 export const AdminDetailsCard: React.FC<AdminDetailsCardProps> = ({
     title,
     subtitle,
     avatars,
+    number1,
+    number2,
 }) => {
+    const percentage =
+        number2 !== 0 ? Math.round((number1 / number2) * 100) : 0;
+
     return (
         <div className='lg:ml-50 lg:mr-50 py-2 bg-white border-t-0.5 border-primary border-dotted md:border-dashed flex'>
             <div className='flex flex-col'>
                 <div>
-                    <CircularProgress percentage={20} />
+                    <CircularProgress percentage={percentage} />
                 </div>
                 <div className='flex'>
                     {avatars?.map((avatar, index) => (
