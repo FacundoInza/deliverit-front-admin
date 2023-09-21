@@ -31,7 +31,7 @@ const Admin: FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             const { data } = await axios.get(
-                `http://localhost:5000/api/admin/${selectedDate.toISOString()}`
+                `http://a8b1f6e8fb7484604a10364720068c8c-beca9df5ac25d9fe.elb.sa-east-1.amazonaws.com/api/admin/${selectedDate.toISOString()}`
             );
             setDailyMetrics({
                 availableOrders: data.data.availableOrders,

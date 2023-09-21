@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+    deliverit-back:
+        build: .
+        ports:
+            - '3000:3000'
+
+    deliverit-front-admin:
+        image: facundoinza/deliverit-front-admin:v1.0.0
+        ports:
+            - '3001:3000'
