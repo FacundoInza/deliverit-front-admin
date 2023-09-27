@@ -19,6 +19,7 @@ import { setFilteredDate } from '../../../redux/features/filtered-date/filteredD
 const Admin: FC = () => {
     const selectedDate = useAppSelector(filteredDate);
     const adminUserData = useAppSelector(adminUser);
+    console.log('ADMIN USER DATA----->', adminUserData);
     const dispatch = useAppDispatch();
 
     const [dailyMetrics, setDailyMetrics] = useState({
