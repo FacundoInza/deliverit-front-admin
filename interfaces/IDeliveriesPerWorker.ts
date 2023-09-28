@@ -4,7 +4,7 @@ import { IPendingOrders } from './IPendingOrders';
 export interface IDeliveriesPerWorker {
     workerId: string;
     status: string;
-    urlImage: string;
+    workerImage: string;
     deliveredOrders: Array<IDeliveredOrders>;
     pendingOrders: Array<IPendingOrders>;
 }

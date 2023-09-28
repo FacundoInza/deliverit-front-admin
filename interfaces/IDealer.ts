@@ -1,7 +1,7 @@
 export interface IDealer {
     workerName: string;
     workerId: string;
+    workerImage: string;
     status: string;
-    urlImage?: string;
     percentage: number;
 }
