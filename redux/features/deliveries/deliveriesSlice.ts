@@ -1,27 +1,44 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { SerializedError, createSlice } from '@reduxjs/toolkit';
+import { getDeliveries } from './deliveriesThunk';
 import { IDeliveriesPerWorker } from '../../../interfaces';
 
-const initialState: IDeliveriesPerWorker = {
-    workerId: '',
-    status: '',
-    urlImage: '',
-    deliveredOrders: [],
-    pendingOrders: [],
+interface IDeliveriesPerWorkerState {
+    data: IDeliveriesPerWorker;
+    loading: boolean;
+    error: SerializedError | null;
+}
+
+const initialState: IDeliveriesPerWorkerState = {
+    data: {
+        workerId: '',
+        status: '',
+        workerImage: '',
+        deliveredOrders: [{ orderId: '', address: '' }],
+        pendingOrders: [{ orderId: '', address: '', status: '' }],
+    },
+    loading: false,
+    error: null,
 };
 
 const deliveriesSlice = createSlice({
     name: 'deliveries',
     initialState,
-    reducers: {
-        setDeliveries: (state, action) => (state = action.payload),
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(getDeliveries.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getDeliveries.fulfilled, (state, action) => {
+                state.loading = false;
+                state.data = action.payload;
+            })
+            .addCase(getDeliveries.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error;
+            });
     },
-    // extraReducers: (builder) => {
-    //     builder.addCase(getDeliveries.fulfilled, (state, action) => {
-    //         state.deliveries = action.payload;
-    //     });
-    // },
 });
-
-export const { setDeliveries } = deliveriesSlice.actions;
 
 export default deliveriesSlice.reducer;

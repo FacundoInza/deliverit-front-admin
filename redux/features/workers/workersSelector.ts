@@ -1,3 +1,3 @@
 import { RootState } from '../../rootReducers';
 
-export const getWorkers = (state: RootState) => state.workers;
+export const workers = (state: RootState) => state.workers;

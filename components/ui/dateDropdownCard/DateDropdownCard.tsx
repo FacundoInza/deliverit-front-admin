@@ -3,33 +3,40 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './DateDropdownCard.module.css';
 import { DatePickerArrow } from '@components/commons/SVG/DatePickerArrow';
+import { dateFormatting } from 'utils';
 
 interface DateDropdownCard {
-    startDate: Date;
-    setDate: (date: Date) => void;
+    startDate: string | undefined;
+    setDate: (date: string | undefined) => void;
 }
 
 export const DateDropdownCard: React.FC<DateDropdownCard> = ({
     startDate,
     setDate,
 }) => {
-    const [selected, setSelectedDate] = useState(startDate);
+    const [selectedDate, setSelectedDate] = useState(
+        new Date(new Date(startDate || '').getTime() + 3 * 60 * 60 * 1000)
+    );
 
     useEffect(() => {
-        setSelectedDate(startDate);
+        setSelectedDate(
+            new Date(new Date(startDate || '').getTime() + 3 * 60 * 60 * 1000)
+        );
     }, [startDate]);
 
-    const handleDateChange = (date: Date | null) => {
+    const handleDateChange = async (date: Date | null) => {
         if (date) {
+            const dateMerge = dateFormatting(date);
+
             setSelectedDate(date);
-            setDate(date);
+            setDate(dateMerge);
         }
     };
 
     return (
         <>
             <DatePicker
-                selected={selected}
+                selected={selectedDate}
                 onChange={handleDateChange}
                 dateFormat={'dd/MM/yyyy'}
                 showYearDropdown
