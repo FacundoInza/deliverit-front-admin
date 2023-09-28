@@ -1,9 +1,5 @@
 import React from 'react';
-
 import type { Metadata } from 'next';
-
-import { Navbar } from '../components/ui/navbar';
-
 import 'tailwindcss/tailwind.css';
 import '../styles/globals.css';
 
@@ -23,12 +19,7 @@ export default function RootLayout({
         <html lang='en'>
             <body className='bg-primary'>
                 <ReduxProvider>
-                    <>
-                        <nav className='bg-primary'>
-                            <Navbar isAuthenticated={true} />
-                        </nav>
-                        {children}
-                    </>
+                    <>{children}</>
                 </ReduxProvider>
             </body>
         </html>

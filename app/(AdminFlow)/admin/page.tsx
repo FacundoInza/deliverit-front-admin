@@ -4,6 +4,7 @@ import 'swiper/css';
 import { Homepage } from '../../../components/ui/homepage/Homepage';
 import { dateFormatting } from '../../../utils';
 
+
 const getDailyMetricsFromServer = async () => {
     const dateMerge = dateFormatting();
 

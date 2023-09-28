@@ -1,52 +1,48 @@
-import React, { FC } from 'react';
+'use client';
+import React, { FC, useEffect, useState } from 'react';
 import { GeneralCard } from '../../../components/ui/generalCard/GeneralCard';
 import { DeliveryCard } from '../../../components/ui/deliveryCard/DeliveryCard';
 import { AiFillPlusCircle } from 'react-icons/ai';
 import Link from 'next/link';
+import axios from 'axios';
+
+interface Order {
+    /* deliveryID: string; */
+    _id: string;
+    address: string;
+    status: string;
+    recipient: string;
+    weigth: number;
+}
 
 const InitWorkDay: FC = () => {
-    const dummyData = [
-        {
-            deliveryID: '#02A35',
-            deliveryAddress: 'Castillo 1356, CABA',
-            status: 'pending',
-        },
-        {
-            deliveryID: '#0H167',
-            deliveryAddress: 'Av. Carabobo y Rivadavia, CABA',
-            status: 'in progress',
-        },
-        {
-            deliveryID: '#0H166',
-            deliveryAddress: 'Mendoza 1810, CABA',
-            status: 'inactive',
-        },
-        {
-            deliveryID: '#0B540',
-            deliveryAddress: 'Scalabrini Ortiz 5073, CABA',
-            status: 'delivered',
-        },
-        {
-            deliveryID: '#0V768',
-            deliveryAddress: 'Pensamientos 2673, CABA',
-            status: 'pending',
-        },
-        /* {
-            deliveryID: '#0Z395',
-            deliveryAddress: 'Av. Acoyte 2907, CABA',
-            status: 'in progress',
-        },
-                {
-            deliveryID: '#0D832',
-            deliveryAddress: 'Libertador 1302, CABA',
-            status: 'inactive',
-        },
-                {
-            deliveryID: '#0N510',
-            deliveryAddress: 'Lavalleja 2174, CABA',
-            status: 'delivered',
-        }, */
-    ];
+    const [orders, setOrders] = useState<Order[]>([]);
+
+    useEffect(() => {
+        fetchOrders();
+    }, []);
+
+    const fetchOrders = async () => {
+        try {
+            const response = await axios.get(
+                `${process.env.NEXT_PUBLIC_BASE_URL}/api/order/`
+            );
+            setOrders(response.data.data);
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+        }
+    };
+
+    const onDeleteSuccess = async () => {
+        try {
+            const response = await axios.get(
+                `${process.env.NEXT_PUBLIC_BASE_URL}/api/order/`
+            );
+            setOrders(response.data.data);
+        } catch (error) {
+            console.error('Error updating orders after deletion:', error);
+        }
+    };
 
     return (
         <div
@@ -61,19 +57,22 @@ const InitWorkDay: FC = () => {
                 <div>
                     <p className='text-primary font-bold mb-3.5'>
                         {' '}
-                        523 paquetes
+                        {/* 523 paquetes */}
+                        {orders.length} paquetes
                     </p>
                 </div>
 
-                {dummyData
+                {orders
                     .filter((delivery) => delivery.status !== 'delivered')
                     .map((delivery) => (
                         <DeliveryCard
-                            key={delivery.deliveryID}
-                            deliveryID={delivery.deliveryID}
-                            deliveryAddress={delivery.deliveryAddress}
+                            key={delivery._id}
+                            deliveryID={delivery._id}
+                            deliveryAddress={delivery.address}
                             status={delivery.status}
                             showCancel={true}
+                            recipient={delivery.recipient}
+                            onDeleteSuccess={onDeleteSuccess}
                         />
                     ))}
                 <div className='flex'>
