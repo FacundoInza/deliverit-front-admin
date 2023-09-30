@@ -3,11 +3,11 @@ import React, { FC, useEffect, useState } from 'react';
 import { GeneralCard } from '../../../components/ui/generalCard/GeneralCard';
 import { DeliveryCard } from '../../../components/ui/deliveryCard/DeliveryCard';
 import { AiFillPlusCircle } from 'react-icons/ai';
-import Link from 'next/link';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import ReactPaginate from 'react-paginate';
 
 interface Order {
-    /* deliveryID: string; */
     _id: string;
     address: string;
     status: string;
@@ -17,17 +17,22 @@ interface Order {
 
 const InitWorkDay: FC = () => {
     const [orders, setOrders] = useState<Order[]>([]);
+    const [pageCount, setPageCount] = useState<number>(0);
+    const [currentPage, setCurrentPage] = useState<number>(0);
+    const router = useRouter();
 
     useEffect(() => {
         fetchOrders();
     }, []);
 
-    const fetchOrders = async () => {
+    const fetchOrders = async (pageNumber: number = currentPage + 1) => {
         try {
             const response = await axios.get(
-                `${process.env.NEXT_PUBLIC_BASE_URL}/api/order/`
+                `${process.env.NEXT_PUBLIC_BASE_URL}/api/order/?page=${pageNumber}&deliveryDate=2023-09-29`
             );
             setOrders(response.data.data);
+            setPageCount(response.data.totalPages);
+            setCurrentPage(response.data.page - 1);
         } catch (error) {
             console.error('Error fetching orders:', error);
         }
@@ -36,7 +41,7 @@ const InitWorkDay: FC = () => {
     const onDeleteSuccess = async () => {
         try {
             const response = await axios.get(
-                `${process.env.NEXT_PUBLIC_BASE_URL}/api/order/`
+                `${process.env.NEXT_PUBLIC_BASE_URL}/api/order/?deliveryDate=2023-09-29`
             );
             setOrders(response.data.data);
         } catch (error) {
@@ -44,9 +49,14 @@ const InitWorkDay: FC = () => {
         }
     };
 
+    const handlePageClick = (data: { selected: number }) => {
+        const pageNumber = data.selected + 1;
+        fetchOrders(pageNumber);
+    };
+
     return (
         <div
-            className=' rounded-xl relative'
+            className='rounded-xl relative'
             style={{
                 height: '750px',
                 overflowY: 'scroll',
@@ -56,8 +66,6 @@ const InitWorkDay: FC = () => {
             <GeneralCard title='Packages'>
                 <div>
                     <p className='text-primary font-bold mb-3.5'>
-                        {' '}
-                        {/* 523 paquetes */}
                         {orders.length} paquetes
                     </p>
                 </div>
@@ -75,14 +83,33 @@ const InitWorkDay: FC = () => {
                             onDeleteSuccess={onDeleteSuccess}
                         />
                     ))}
+
+                <div className='flex justify-center mt-4'>
+                    <ReactPaginate
+                        pageCount={pageCount}
+                        onPageChange={handlePageClick}
+                        containerClassName='flex'
+                        pageLinkClassName='mx-2 p-2 bg-gray-200 rounded'
+                        previousLinkClassName='mx-2 p-2 bg-gray-200 rounded'
+                        nextLinkClassName='mx-2 p-2 bg-gray-200 rounded'
+                        activeClassName='bg-blue-500 text-white'
+                    />
+                </div>
+
                 <div className='flex'>
-                    <div className='ml-auto  px-1 py-5 '>
-                        <Link href='/add-package'>
+                    <div className='ml-auto px-1 py-5 '>
+                        <button
+                            onClick={() => router.push('/add-package')}
+                            style={{
+                                background: 'none',
+                                border: 'none',
+                                cursor: 'pointer',
+                            }}
+                        >
                             <AiFillPlusCircle size={50} color='#80ED99' />
-                        </Link>
+                        </button>
                     </div>
                 </div>
-                {/* </div> */}
             </GeneralCard>
         </div>
     );
