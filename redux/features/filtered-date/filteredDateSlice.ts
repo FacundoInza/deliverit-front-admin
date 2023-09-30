@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { dateFormatting } from '../../../utils';
 
-const initialState = new Date();
+const initialState = dateFormatting();
 
 const filteredDateSlice = createSlice({
     name: 'filteredDate',

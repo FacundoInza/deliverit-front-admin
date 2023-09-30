@@ -6,7 +6,7 @@ import { CircularImage } from '../../commons/circular-image/CircularImage';
 import { IDealer } from '../../../interfaces/IDealer';
 
 export const DealerCard: FC<{ dealer: IDealer }> = ({ dealer }) => {
-    const { workerName, status, percentage, urlImage } = dealer;
+    const { workerName, status, percentage, workerImage } = dealer;
 
     return (
         <div className='h-100 w-full bg-white flex items-center justify-between border-dotted border-t-2 '>
@@ -22,7 +22,7 @@ export const DealerCard: FC<{ dealer: IDealer }> = ({ dealer }) => {
 
             <div className='w-40.27 h-40.27 bg-red-500 rounded-full flex items-center justify-center'>
                 <CircularImage
-                    src={urlImage}
+                    src={workerImage}
                     alt='worker-image'
                     diameter={60}
                 />
