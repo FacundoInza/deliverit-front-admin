@@ -19,6 +19,7 @@ import { dailyMetrics } from '../../../redux/features/daily-metrics/dailyMetrics
 import { getWorkers } from '../../../redux/features/workers/workersThunk';
 import { IDailyMetrics } from '../../../interfaces';
 import { dateFormatting } from 'utils';
+import { getUser } from 'redux/features/user/userThunk';
 
 interface HomepageProps {
     dailyMetricsFromServer: IDailyMetrics;
@@ -33,6 +34,7 @@ export const Homepage: React.FC<HomepageProps> = ({
     const dispatch = useAppDispatch();
 
     useEffect(() => {
+        if (!adminUserData.id) dispatch(getUser());
         dispatch(getDailyMetrics(selectedDate));
         dispatch(getWorkers(selectedDate));
     }, [selectedDate]);
@@ -65,10 +67,9 @@ export const Homepage: React.FC<HomepageProps> = ({
         dayNumbers.push(date.getDate());
     }
 
-    const avatarArray = [''];
-    // const avatarArray = data.activeWorkers.images.map(
-    //     (image) => image.urlImage
-    // );
+    const avatarArray = data.activeWorkers.images.map(
+        (image) => image.urlImage
+    );
 
     return (
         <>
@@ -143,7 +144,7 @@ export const Homepage: React.FC<HomepageProps> = ({
                         </div>
                     ) : (
                         <>
-                            {data.availableWorkers === 0 ? (
+                            {!data.availableWorkers ? (
                                 <>
                                     <AdminDetailsCard
                                         title='Delivery Staff'

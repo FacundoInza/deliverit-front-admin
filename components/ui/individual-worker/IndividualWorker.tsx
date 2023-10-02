@@ -1,26 +1,113 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GeneralCard } from '../../../components/ui/generalCard/GeneralCard';
 import { DropdownCardFaded } from '../../../components/ui/dropdownCard/DropdownCardFaded';
-import { DeliveryCard } from '../../../components/ui/deliveryCard/DeliveryCard';
+import { DeliveryCardAdmin } from '../../../components/ui/deliveryCard/DeliveryCardAdmin';
 import { CircularImage } from '../../../components/commons/circular-image/CircularImage';
 import { StatusBadge } from '../../../components/ui/statusBadge/StatusBadge';
 import { Switch } from '../../../components/commons/switch/Switch';
+import { useAppSelector } from '../../../hooks/useAppSelector';
+import { useAppDispatch } from '../../../hooks/useAppDispatch';
+import {
+    deleteDeliveries,
+    getDeliveries,
+    switchWorkerStatus,
+} from '../../../redux/features/deliveries/deliveriesThunk';
+import { deliveries } from '../../../redux/features/deliveries/deliveriesSelector';
+import Notification from '../modal/Notification';
+import {
+    deleteDeliveredOrderFromReduxState,
+    deletePendingOrderFromReduxState,
+    removeError,
+    switchStatusOptimistic,
+} from '../../../redux/features/deliveries/deliveriesSlice';
+import ModalDelete from '../../../components/commons/modal/ModalDelete';
 
 interface IndividualWorkerProps {
     individualWorkerDataFromServer: {
-        workerId: '';
-        status: '';
-        workerImage: '';
-        deliveredOrders: [{ orderId: ''; address: '' }];
-        pendingOrders: [{ orderId: ''; address: ''; status: '' }];
+        workerId: string;
+        status: string;
+        urlImage: string;
+        deliveredOrders: [{ deliveryId: string; address: string }];
+        pendingOrders: [
+            { deliveryId: string; address: string; status: string },
+        ];
     };
+    userId: string;
 }
 
 export const IndividualWorker: React.FC<IndividualWorkerProps> = ({
     individualWorkerDataFromServer,
+    userId,
 }) => {
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showSwitchModal, setShowSwitchModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
+    const [isModalSuccess, setIsModalSuccess] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [deliveryStatus, setDeliveryStatus] = useState('');
+    const [deletedDeliveryId, setDeletedDeliveryId] = useState('');
+
+    const dispatch = useAppDispatch();
+
+    const handleDeleteClick = async (status: string, deliveryId: string) => {
+        setModalMessage('Are you sure you want to delete?');
+        setIsModalSuccess(true);
+        setShowDeleteModal(true);
+        setDeliveryStatus(status);
+        setDeletedDeliveryId(deliveryId);
+    };
+
+    const handleDeleteConfirm = async () => {
+        setShowDeleteModal(false);
+        setIsDeleting(true);
+        if (deliveryStatus === 'delivered') {
+            dispatch(deleteDeliveredOrderFromReduxState(deletedDeliveryId));
+            dispatch(deleteDeliveries({ deletedDeliveryId, userId }));
+        } else {
+            dispatch(deletePendingOrderFromReduxState(deletedDeliveryId));
+            dispatch(deleteDeliveries({ deletedDeliveryId, userId }));
+        }
+        setIsDeleting(false);
+    };
+
+    const handleDeleteCancel = () => {
+        setShowDeleteModal(false);
+    };
+
+    const handleSwitchClick = async () => {
+        setModalMessage('Are you sure you want to switch the worker status?');
+        setIsModalSuccess(true);
+        setShowSwitchModal(true);
+    };
+
+    const handleSwitchConfirm = async () => {
+        setShowSwitchModal(false);
+
+        dispatch(switchStatusOptimistic());
+        dispatch(switchWorkerStatus(userId));
+    };
+
+    const handleSwitchCancel = () => {
+        setShowSwitchModal(false);
+    };
+
+    const { data, error } = useAppSelector(deliveries);
+
+    useEffect(() => {
+        dispatch(getDeliveries(userId));
+    }, []);
+
+    // useEffect(() => {
+    //     dispatch(
+    //         switchWorkerStatusInWorkersArray({
+    //             workerId: userId,
+    //             status: data.status,
+    //         })
+    //     );
+    // }, [data]);
+
     const [expandedCard, setExpandedCard] = useState<number | null>(null);
 
     const handleExpand = (cardIndex: number) => {
@@ -31,71 +118,141 @@ export const IndividualWorker: React.FC<IndividualWorkerProps> = ({
         }
     };
 
+    const serverSideRendering = !data.workerId || data.workerId === '';
+
+    const mapBase = serverSideRendering ? individualWorkerDataFromServer : data;
+
+    const errorWhileSwitchingStatus =
+        error && error[0] === 'S'
+            ? 'There was an error while switching the worker status'
+            : 'There was an error while getting the deliveries';
+
+    const errorWhileDeletingDelivery =
+        error && error[0] === 'D'
+            ? 'There was an error while deleting the delivery'
+            : `${errorWhileSwitchingStatus}`;
+
     return (
         <>
+            {showDeleteModal && (
+                <ModalDelete
+                    isSuccess={isModalSuccess}
+                    message={modalMessage}
+                    onClose={handleDeleteConfirm}
+                    onCancel={handleDeleteCancel}
+                />
+            )}
+
+            {showSwitchModal && (
+                <ModalDelete
+                    isSuccess={isModalSuccess}
+                    message={modalMessage}
+                    onClose={handleSwitchConfirm}
+                    onCancel={handleSwitchCancel}
+                />
+            )}
+
+            {error && (
+                <Notification
+                    showModal={true}
+                    isSuccess={false}
+                    message={errorWhileDeletingDelivery}
+                    onClose={() => {
+                        dispatch(removeError());
+                        dispatch(getDeliveries(userId));
+                    }}
+                    buttonText={'Ok'}
+                    singleButton={true}
+                />
+            )}
+
             <div className='max-h-screen mb-4'>
                 <div className='overflow-auto'>
                     <GeneralCard title={'Worker profile'}>
                         <div className='flex'>
                             <CircularImage
-                                src={individualWorkerDataFromServer.workerImage}
+                                src={
+                                    !data.workerId || data.workerId === ''
+                                        ? individualWorkerDataFromServer.urlImage
+                                        : data.urlImage
+                                }
                                 alt={'Avatar image'}
                                 diameter={100}
                             />
                             <div className='flex flex-col ml-2'>
                                 <h1 className='text-primary text-2xl font-extrabold'>
-                                    {individualWorkerDataFromServer.workerId}
+                                    {!data.workerId || data.workerId === ''
+                                        ? individualWorkerDataFromServer.workerId
+                                        : data.workerId}
                                 </h1>
                                 <div className='mt-2'>
                                     <StatusBadge
                                         status={
-                                            individualWorkerDataFromServer.status
+                                            !data.workerId ||
+                                            data.workerId === ''
+                                                ? individualWorkerDataFromServer.status
+                                                : data.status
                                         }
                                     />
                                 </div>
                             </div>
+
                             <div className='flex flex-grow items-center justify-end mr-2'>
-                                <Switch />
+                                <Switch
+                                    initialStatus={
+                                        individualWorkerDataFromServer.status
+                                    }
+                                    workerId={userId}
+                                    handleSwitchClick={handleSwitchClick}
+                                />
                             </div>
                         </div>
                     </GeneralCard>
                     <div className='mt-4'>
                         <DropdownCardFaded
                             title='Pending deliveries'
-                            subtitle={`${individualWorkerDataFromServer.pendingOrders.length} pending`}
+                            subtitle={
+                                !data.workerId || data.workerId === ''
+                                    ? `${individualWorkerDataFromServer.pendingOrders.length} pending`
+                                    : `${data.pendingOrders.length} pending`
+                            }
                             expanded={expandedCard === 1}
                             onExpand={() => handleExpand(1)}
                         >
-                            {individualWorkerDataFromServer.pendingOrders.map(
-                                (delivery) => (
-                                    <DeliveryCard
-                                        key={delivery.orderId}
-                                        deliveryID={delivery.orderId}
-                                        deliveryAddress={delivery.address}
-                                        status='pending'
-                                        showCancel={true}
-                                    />
-                                )
-                            )}
+                            {mapBase.pendingOrders.map((delivery) => (
+                                <DeliveryCardAdmin
+                                    key={delivery.deliveryId}
+                                    deliveryID={delivery.deliveryId}
+                                    deliveryAddress={delivery.address}
+                                    status='pending'
+                                    showCancel={true}
+                                    isDeleting={isDeleting}
+                                    handleDeleteClick={handleDeleteClick}
+                                />
+                            ))}
                         </DropdownCardFaded>
 
                         <DropdownCardFaded
                             title='Delivery history'
-                            subtitle={`${individualWorkerDataFromServer.deliveredOrders.length} delivered`}
+                            subtitle={
+                                !data.workerId || data.workerId === ''
+                                    ? `${individualWorkerDataFromServer.deliveredOrders.length} delivered`
+                                    : `${data.deliveredOrders.length} delivered`
+                            }
                             expanded={expandedCard === 2}
                             onExpand={() => handleExpand(2)}
                         >
-                            {individualWorkerDataFromServer.deliveredOrders.map(
-                                (delivery) => (
-                                    <DeliveryCard
-                                        key={delivery.orderId}
-                                        deliveryID={delivery.orderId}
-                                        deliveryAddress={delivery.address}
-                                        status='delivered'
-                                        showCancel={true}
-                                    />
-                                )
-                            )}
+                            {mapBase.deliveredOrders.map((delivery) => (
+                                <DeliveryCardAdmin
+                                    key={delivery.deliveryId}
+                                    deliveryID={delivery.deliveryId}
+                                    deliveryAddress={delivery.address}
+                                    status='delivered'
+                                    showCancel={true}
+                                    isDeleting={isDeleting}
+                                    handleDeleteClick={handleDeleteClick}
+                                />
+                            ))}
                         </DropdownCardFaded>
                     </div>
                 </div>

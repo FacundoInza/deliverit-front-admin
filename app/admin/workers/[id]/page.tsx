@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import 'swiper/css';
-import { IndividualWorker } from '../../../../../components/ui/individual-worker/IndividualWorker';
+import { IndividualWorker } from '../../../../components/ui/individual-worker/IndividualWorker';
 
 interface IndividualWorkerParams {
     params: {
@@ -28,6 +28,7 @@ const Workers: React.FC<IndividualWorkerParams> = async ({ params }) => {
     return (
         <IndividualWorker
             individualWorkerDataFromServer={individualWorkerDataFromServer}
+            userId={params.id}
         />
     );
 };

@@ -54,7 +54,9 @@ export const AdminDetailsCard: React.FC<AdminDetailsCardProps> = ({
             </div>
             <Link
                 href={
-                    title === 'Delivery Staff' ? '/dealers' : '/manage-packages'
+                    title === 'Delivery Staff'
+                        ? '/admin/workers'
+                        : '/admin/manage-packages'
                 }
             >
                 <div className='ml-2 flex items-end h-12 mt-28 max-w-[70px]'>

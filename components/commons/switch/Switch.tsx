@@ -1,13 +1,40 @@
 'use client';
 
-import React, { FC, useState } from 'react';
+import React from 'react';
+import { useAppSelector } from '../../../hooks/useAppSelector';
+import { deliveries } from '../../../redux/features/deliveries/deliveriesSelector';
 
-export const Switch: FC = () => {
-    const [isActive, setIsActive] = useState(false);
+interface SwitchProps {
+    workerId: string;
+    initialStatus: string;
+    handleSwitchClick: () => void;
+}
+
+export const Switch: React.FC<SwitchProps> = ({
+    initialStatus,
+    handleSwitchClick,
+}) => {
+    const { data } = useAppSelector(deliveries);
 
     const toggle = () => {
-        setIsActive(!isActive);
+        handleSwitchClick();
     };
+
+    const serverSideRendering = !data.status || data.status === '';
+    const statusClass =
+        initialStatus === 'active'
+            ? 'bg-white border-primary'
+            : 'bg-gray-400 border-gray-600';
+    const statusClass2 =
+        data.status === 'active'
+            ? 'bg-white border-primary'
+            : 'bg-gray-400 border-gray-600';
+
+    const statusClass3 =
+        initialStatus === 'active' ? 'translate-x-6 bg-secondary' : '';
+
+    const statusClass4 =
+        data.status === 'active' ? 'translate-x-6 bg-secondary' : '';
 
     return (
         <div>
@@ -19,18 +46,18 @@ export const Switch: FC = () => {
                             id='toggle'
                             className='sr-only'
                             onChange={toggle}
-                            checked={isActive}
+                            checked={data.status === 'active'}
                         />
                         <div
                             className={`block ${
-                                isActive
-                                    ? 'bg-white border-primary'
-                                    : 'bg-gray-400 border-gray-600'
-                            } border-solid border-2  w-14 h-8 rounded-full`}
+                                serverSideRendering ? statusClass : statusClass2
+                            } border-solid border-2 w-14 h-8 rounded-full`}
                         ></div>
                         <div
                             className={`dot absolute left-1 top-1 bg-gray-200 w-6 h-6 rounded-full transition-transform duration-300 transform ${
-                                isActive ? 'translate-x-6 bg-secondary' : ''
+                                serverSideRendering
+                                    ? statusClass3
+                                    : statusClass4
                             }`}
                         ></div>
                     </div>

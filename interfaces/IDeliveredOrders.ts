@@ -1,4 +1,4 @@
 export interface IDeliveredOrders {
-    orderId: string;
+    deliveryId: string;
     address: string;
 }
