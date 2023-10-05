@@ -67,9 +67,10 @@ const deliveriesSlice = createSlice({
                 state.error = 'Delete delivery error';
             })
             .addCase(switchWorkerStatus.fulfilled, (state, action) => {
-                state.data.status = action.payload.enabled
-                    ? 'active'
-                    : 'inactive';
+                state.data.status =
+                    action.payload === 'Worker status updated to active'
+                        ? 'active'
+                        : 'inactive';
             })
             .addCase(switchWorkerStatus.rejected, (state) => {
                 state.error = 'Switch status error';

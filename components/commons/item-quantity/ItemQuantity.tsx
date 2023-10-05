@@ -20,7 +20,7 @@ export const ItemQuantity: FC<Props> = ({
                 handleClick={handleMinusQuantity}
             />
             <span className='text-lg text-primary ml-1 mr-1 w-full'>
-                {packagesQuantity}
+                {packagesQuantity.toString().padStart(2, '0')}
             </span>
             <IconButton
                 icon={<IconPlusSvg />}

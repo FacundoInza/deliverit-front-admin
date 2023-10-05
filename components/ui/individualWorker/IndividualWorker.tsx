@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { GeneralCard } from '../../../components/ui/generalCard/GeneralCard';
-import { DropdownCardFaded } from '../../../components/ui/dropdownCard/DropdownCardFaded';
-import { DeliveryCardAdmin } from '../../../components/ui/deliveryCard/DeliveryCardAdmin';
-import { CircularImage } from '../../../components/commons/circular-image/CircularImage';
-import { StatusBadge } from '../../../components/ui/statusBadge/StatusBadge';
-import { Switch } from '../../../components/commons/switch/Switch';
+import { GeneralCard } from '../generalCard/GeneralCard';
+import { DropdownCardFaded } from '../dropdownCard/DropdownCardFaded';
+import { DeliveryCardAdmin } from '../deliveryCard/DeliveryCardAdmin';
+import { CircularImage } from '../../commons/circular-image/CircularImage';
+import { StatusBadge } from '../statusBadge/StatusBadge';
+import { Switch } from '../../commons/switch/Switch';
 import { useAppSelector } from '../../../hooks/useAppSelector';
 import { useAppDispatch } from '../../../hooks/useAppDispatch';
 import {
@@ -22,7 +22,7 @@ import {
     removeError,
     switchStatusOptimistic,
 } from '../../../redux/features/deliveries/deliveriesSlice';
-import ModalDelete from '../../../components/commons/modal/ModalDelete';
+import ModalDelete from '../../commons/modal/ModalDelete';
 
 interface IndividualWorkerProps {
     individualWorkerDataFromServer: {
@@ -98,15 +98,6 @@ export const IndividualWorker: React.FC<IndividualWorkerProps> = ({
     useEffect(() => {
         dispatch(getDeliveries(userId));
     }, []);
-
-    // useEffect(() => {
-    //     dispatch(
-    //         switchWorkerStatusInWorkersArray({
-    //             workerId: userId,
-    //             status: data.status,
-    //         })
-    //     );
-    // }, [data]);
 
     const [expandedCard, setExpandedCard] = useState<number | null>(null);
 
@@ -224,7 +215,7 @@ export const IndividualWorker: React.FC<IndividualWorkerProps> = ({
                                     key={delivery.deliveryId}
                                     deliveryID={delivery.deliveryId}
                                     deliveryAddress={delivery.address}
-                                    status='pending'
+                                    status={delivery.status}
                                     showCancel={true}
                                     isDeleting={isDeleting}
                                     handleDeleteClick={handleDeleteClick}

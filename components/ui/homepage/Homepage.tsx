@@ -18,8 +18,11 @@ import { getDailyMetrics } from '../../../redux/features/daily-metrics/dailyMetr
 import { dailyMetrics } from '../../../redux/features/daily-metrics/dailyMetricsSelector';
 import { getWorkers } from '../../../redux/features/workers/workersThunk';
 import { IDailyMetrics } from '../../../interfaces';
-import { dateFormatting } from 'utils';
-import { getUser } from 'redux/features/user/userThunk';
+import { dateFormatting } from '../../../utils';
+import { getUser } from '../../../redux/features/user/userThunk';
+import { deliveries } from '../../../redux/features/deliveries/deliveriesSelector';
+import OptimisticUpdateFailureNotification from '../../../components/ui/modal/OptimisticUpdateFailureNotification';
+import { getOrders } from '../../../redux/features/orders/ordersThunk';
 
 interface HomepageProps {
     dailyMetricsFromServer: IDailyMetrics;
@@ -31,12 +34,15 @@ export const Homepage: React.FC<HomepageProps> = ({
     const selectedDate = useAppSelector(filteredDate);
     const adminUserData = useAppSelector(adminUser);
     const { data, loading } = useAppSelector(dailyMetrics);
+    const { error } = useAppSelector(deliveries);
+
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         if (!adminUserData.id) dispatch(getUser());
         dispatch(getDailyMetrics(selectedDate));
         dispatch(getWorkers(selectedDate));
+        dispatch(getOrders({ pageNumber: 1, selectedDate: selectedDate }));
     }, [selectedDate]);
 
     const swiperRef = useRef<SwiperInstance | null>(null);
@@ -73,6 +79,8 @@ export const Homepage: React.FC<HomepageProps> = ({
 
     return (
         <>
+            {error && <OptimisticUpdateFailureNotification />}
+
             <GeneralCard title={'Delivery Management'}>
                 <div className='flex justify-center'>
                     <CircularImage
@@ -159,7 +167,7 @@ export const Homepage: React.FC<HomepageProps> = ({
                                         }
                                     />
                                     <AdminDetailsCard
-                                        title='Packages'
+                                        title='Orders'
                                         subtitle={`${dailyMetricsFromServer.deliveredOrders}/${dailyMetricsFromServer.availableOrders} delivered`}
                                         number1={
                                             dailyMetricsFromServer.deliveredOrders
@@ -180,7 +188,7 @@ export const Homepage: React.FC<HomepageProps> = ({
                                         number2={data.availableWorkers}
                                     />
                                     <AdminDetailsCard
-                                        title='Packages'
+                                        title='Orders'
                                         subtitle={`${data.deliveredOrders}/${data.availableOrders} delivered`}
                                         number1={data.deliveredOrders}
                                         number2={data.availableOrders}

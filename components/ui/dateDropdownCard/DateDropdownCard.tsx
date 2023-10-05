@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './DateDropdownCard.module.css';
-import { DatePickerArrow } from '@components/commons/SVG/DatePickerArrow';
-import { dateFormatting } from 'utils';
+import { DatePickerArrow } from '../../../components/commons/SVG/DatePickerArrow';
+import { dateFormatting } from '../../../utils';
 
 interface DateDropdownCard {
     startDate: string | undefined;
@@ -42,7 +42,6 @@ export const DateDropdownCard: React.FC<DateDropdownCard> = ({
                 showYearDropdown
                 showMonthDropdown
                 className={styles.datepicker}
-                maxDate={new Date()}
             />
             <div
                 className='w-6 h-6 flex align-items-center pointer-events-none absolute'

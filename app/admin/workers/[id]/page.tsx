@@ -1,7 +1,7 @@
 import React from 'react';
-import axios from 'axios';
 import 'swiper/css';
-import { IndividualWorker } from '../../../../components/ui/individual-worker/IndividualWorker';
+import { IndividualWorker } from '../../../../components/ui/individualWorker/IndividualWorker';
+import { axiosInstance } from '../../../../interceptors';
 
 interface IndividualWorkerParams {
     params: {
@@ -10,9 +10,7 @@ interface IndividualWorkerParams {
 }
 
 const getIndividualWorkerDataFromServer = async (workerId: string) => {
-    const response = await axios.get(
-        `http://localhost:5000/api/admin/workers/${workerId}`
-    );
+    const response = await axiosInstance.get(`/api/admin/workers/${workerId}`);
 
     if (response.status !== 200) {
         throw new Error('No se pudo obtener la información del usuario');

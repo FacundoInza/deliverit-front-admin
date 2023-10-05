@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IUser } from 'interfaces';
+import { IUser } from '../../../interfaces';
 import { getUser } from './userThunk';
 
 const initialState: IUser = {

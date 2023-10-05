@@ -17,12 +17,13 @@ function isValidUser(user: any): user is IUser {
     return (
         typeof user === 'object' &&
         'id' in user &&
-        'email' in user &&
         'name' in user &&
         'lastName' in user &&
         'role' in user &&
         'enabled' in user &&
         'lastSeenAt' in user &&
+        'blockUntil' in user &&
+        'numberOfPacakagesPerDay' in user &&
         'urlImage' in user
     );
 }

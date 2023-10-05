@@ -17,6 +17,7 @@ interface CardProps {
 
 const colorMap: { [key: string]: string } = {
     delivered: 'text-delivered',
+    'on-course': 'text-inProgress',
     'in progress': 'text-inProgress',
     pending: 'text-pending',
     inactive: 'text-gray-500',

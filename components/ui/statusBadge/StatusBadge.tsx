@@ -28,6 +28,11 @@ const colorMap: ColorMap = {
         text: 'text-yellow-700',
         ring: 'ring-yellow-600',
     },
+    'on-course': {
+        bg: 'bg-inProgress',
+        text: 'text-yellow-700',
+        ring: 'ring-yellow-600',
+    },
     pending: {
         bg: 'bg-pending',
         text: 'text-gray-700',
@@ -35,6 +40,16 @@ const colorMap: ColorMap = {
     },
     inactive: {
         bg: 'bg-gray-500',
+        text: 'text-purple-100',
+        ring: 'ring-purple-600',
+    },
+    unassigned: {
+        bg: 'bg-gray-400',
+        text: 'text-purple-100',
+        ring: 'ring-purple-600',
+    },
+    assigned: {
+        bg: 'bg-green-500',
         text: 'text-purple-100',
         ring: 'ring-purple-600',
     },
