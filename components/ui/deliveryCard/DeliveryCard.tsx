@@ -5,6 +5,7 @@ import { PiPackageThin } from 'react-icons/pi';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import ModalDelete from '../../commons/modal/ModalDelete';
 import { api } from '../../../api/axiosInstance';
+import Link from 'next/link';
 
 interface CardProps {
     deliveryID: string;
@@ -101,47 +102,48 @@ export const DeliveryCard: React.FC<CardProps> = ({
                 </div>
             )}
 
-            <div className='bg-white border border-primary rounded-2xl p-1 flex justify-center items-center space-x-2 text-primary relative h-[90px] mb-2'>
-                <div className='ml-1 w-1/8'>
-                    <span className={colorMap[status]}>
-                        <PiPackageThin size={40} />
-                    </span>
-                </div>
-                <div className='flex-grow flex-col just space-y-1 border-l border-dashed border-gray-400 mx-1 px-2'>
-                    <h3 className='text-lg font-semibold'>
-                        {'#' + deliveryID.substring(17, 24)}
-                    </h3>
-                    <div className='mr-[40px]'>
-                        <p>{deliveryAddress}</p>
-                        <p>
-                            <span
-                                onMouseEnter={handleMouseEnter}
-                                onMouseLeave={handleMouseLeave}
-                            >
-                                {isHovered
-                                    ? deliveryAddress
-                                    : `${deliveryAddress.slice(0, 40)}...`}
-                            </span>
-                        </p>
+            <Link href='/admin/manage-packages'>
+                <div className='bg-white border border-primary rounded-2xl p-1 flex justify-center items-center space-x-2 text-primary relative h-[90px] mb-2'>
+                    <div className='ml-1 w-1/8'>
+                        <span className={colorMap[status]}>
+                            <PiPackageThin size={40} />
+                        </span>
+                    </div>
+                    <div className='flex-grow flex-col just space-y-1 border-l border-dashed border-gray-400 mx-1 px-2'>
+                        <h3 className='text-lg font-semibold'>
+                            {'#' + deliveryID.substring(17, 24)}
+                        </h3>
+                        <div className='mr-[40px]'>
+                            <p>
+                                <span
+                                    onMouseEnter={handleMouseEnter}
+                                    onMouseLeave={handleMouseLeave}
+                                >
+                                    {isHovered
+                                        ? deliveryAddress
+                                        : `${deliveryAddress.slice(0, 40)}...`}
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div className='flex flex-col align-bottom absolute top-4 right-1'>
+                        <StatusBadge status={status} />
+                        {showCancel ? (
+                            <div className='mt-2 flex flex-col justify-end'>
+                                <button
+                                    className='flex justify-end text-red-500 hover:text-red-700'
+                                    onClick={handleDeleteClick}
+                                    disabled={isDeleting}
+                                >
+                                    <RiDeleteBin6Line color='red' size={30} />
+                                </button>
+                            </div>
+                        ) : (
+                            ''
+                        )}
                     </div>
                 </div>
-                <div className='flex flex-col align-bottom absolute top-4 right-1'>
-                    <StatusBadge status={status} />
-                    {showCancel ? (
-                        <div className='mt-2 flex flex-col justify-end'>
-                            <button
-                                className='flex justify-end text-red-500 hover:text-red-700'
-                                onClick={handleDeleteClick}
-                                disabled={isDeleting}
-                            >
-                                <RiDeleteBin6Line color='red' size={30} />
-                            </button>
-                        </div>
-                    ) : (
-                        ''
-                    )}
-                </div>
-            </div>
+            </Link>
         </>
     );
 };
