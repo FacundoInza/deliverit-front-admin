@@ -28,7 +28,7 @@ const InitWorkDay: FC = () => {
     const fetchOrders = async (pageNumber: number = currentPage + 1) => {
         try {
             const response = await axios.get(
-                `${process.env.NEXT_PUBLIC_BASE_URL}/api/order/?page=${pageNumber}&deliveryDate=2023-09-29`
+                `${process.env.NEXT_PUBLIC_BASE_URL}/api/order/?page=${pageNumber}&deliveryDate=2023-10-04`
             );
             setOrders(response.data.data);
             setPageCount(response.data.totalPages);
@@ -38,12 +38,17 @@ const InitWorkDay: FC = () => {
         }
     };
 
-    const onDeleteSuccess = async () => {
+    const onDeleteSuccess = async (pageNumber: number = currentPage + 1) => {
         try {
             const response = await axios.get(
-                `${process.env.NEXT_PUBLIC_BASE_URL}/api/order/?deliveryDate=2023-09-29`
+                `${process.env.NEXT_PUBLIC_BASE_URL}/api/order/?page=${pageNumber}&deliveryDate=2023-10-04`
             );
+            console.log('cantidad de ordenes', response.data.data.length);
             setOrders(response.data.data);
+
+            if (response.data.data.length === 0 && pageNumber > 1) {
+                fetchOrders(pageNumber - 1);
+            }
         } catch (error) {
             console.error('Error updating orders after deletion:', error);
         }
@@ -90,9 +95,12 @@ const InitWorkDay: FC = () => {
                         onPageChange={handlePageClick}
                         containerClassName='flex'
                         pageLinkClassName='mx-2 p-2 bg-gray-200 rounded'
-                        previousLinkClassName='mx-2 p-2 bg-gray-200 rounded'
-                        nextLinkClassName='mx-2 p-2 bg-gray-200 rounded'
-                        activeClassName='bg-blue-500 text-white'
+                        previousLinkClassName='mx-2 p-2 bg-white-200 rounded'
+                        nextLinkClassName='mx-2 p-2 bg-white-200 rounded'
+                        previousLabel={<span>&lt;</span>}
+                        nextLabel={<span>&gt;</span>}
+                        activeClassName={'active'}
+                        pageClassName={'bg-white'}
                     />
                 </div>
 
