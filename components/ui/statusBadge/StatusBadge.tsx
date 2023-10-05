@@ -13,12 +13,22 @@ interface ColorMap {
 }
 
 const colorMap: ColorMap = {
+    delivered: {
+        bg: 'bg-delivered',
+        text: 'text-green-700',
+        ring: 'ring-green-600',
+    },
     active: {
         bg: 'bg-delivered',
         text: 'text-green-700',
         ring: 'ring-green-600',
     },
     'in progress': {
+        bg: 'bg-inProgress',
+        text: 'text-yellow-700',
+        ring: 'ring-yellow-600',
+    },
+    'on-course': {
         bg: 'bg-inProgress',
         text: 'text-yellow-700',
         ring: 'ring-yellow-600',

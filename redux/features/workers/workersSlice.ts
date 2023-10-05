@@ -25,7 +25,15 @@ const initialState: IWorkerState = {
 const workersSlice = createSlice({
     name: 'workers',
     initialState,
-    reducers: {},
+    reducers: {
+        switchWorkerStatusInWorkersArray: (state, action) => {
+            const { workerId, workerStatus } = action.payload;
+
+            state.data.map((worker) => {
+                if (worker.workerId === workerId) worker.status = workerStatus;
+            });
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getWorkers.pending, (state) => {
@@ -42,5 +50,7 @@ const workersSlice = createSlice({
             });
     },
 });
+
+export const { switchWorkerStatusInWorkersArray } = workersSlice.actions;
 
 export default workersSlice.reducer;

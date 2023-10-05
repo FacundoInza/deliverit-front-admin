@@ -1,5 +1,5 @@
 export interface IPendingOrders {
-    orderId: string;
+    deliveryId: string;
     address: string;
     status: string;
 }

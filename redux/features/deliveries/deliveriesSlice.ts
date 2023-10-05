@@ -1,20 +1,24 @@
-import { SerializedError, createSlice } from '@reduxjs/toolkit';
-import { getDeliveries } from './deliveriesThunk';
+import { createSlice } from '@reduxjs/toolkit';
+import {
+    deleteDeliveries,
+    getDeliveries,
+    switchWorkerStatus,
+} from './deliveriesThunk';
 import { IDeliveriesPerWorker } from '../../../interfaces';
 
 interface IDeliveriesPerWorkerState {
     data: IDeliveriesPerWorker;
     loading: boolean;
-    error: SerializedError | null;
+    error: null | string;
 }
 
 const initialState: IDeliveriesPerWorkerState = {
     data: {
         workerId: '',
         status: '',
-        workerImage: '',
-        deliveredOrders: [{ orderId: '', address: '' }],
-        pendingOrders: [{ orderId: '', address: '', status: '' }],
+        urlImage: '',
+        deliveredOrders: [{ deliveryId: '', address: '' }],
+        pendingOrders: [{ deliveryId: '', address: '', status: '' }],
     },
     loading: false,
     error: null,
@@ -23,7 +27,27 @@ const initialState: IDeliveriesPerWorkerState = {
 const deliveriesSlice = createSlice({
     name: 'deliveries',
     initialState,
-    reducers: {},
+    reducers: {
+        deletePendingOrderFromReduxState: (state, action) => {
+            state.data.pendingOrders = state.data.pendingOrders.filter(
+                (order) => order.deliveryId !== action.payload
+            );
+        },
+        deleteDeliveredOrderFromReduxState: (state, action) => {
+            state.data.deliveredOrders = state.data.deliveredOrders.filter(
+                (order) => {
+                    return order.deliveryId !== action.payload;
+                }
+            );
+        },
+        removeError: (state) => {
+            state.error = null;
+        },
+        switchStatusOptimistic: (state) => {
+            state.data.status =
+                state.data.status === 'active' ? 'inactive' : 'active';
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getDeliveries.pending, (state) => {
@@ -34,11 +58,31 @@ const deliveriesSlice = createSlice({
                 state.loading = false;
                 state.data = action.payload;
             })
-            .addCase(getDeliveries.rejected, (state, action) => {
+            .addCase(getDeliveries.rejected, (state) => {
                 state.loading = false;
-                state.error = action.error;
+                state.error = 'Get deliveries error';
+            })
+            .addCase(deleteDeliveries.rejected, (state) => {
+                state.loading = false;
+                state.error = 'Delete delivery error';
+            })
+            .addCase(switchWorkerStatus.fulfilled, (state, action) => {
+                state.data.status =
+                    action.payload === 'Worker status updated to active'
+                        ? 'active'
+                        : 'inactive';
+            })
+            .addCase(switchWorkerStatus.rejected, (state) => {
+                state.error = 'Switch status error';
             });
     },
 });
+
+export const {
+    deletePendingOrderFromReduxState,
+    deleteDeliveredOrderFromReduxState,
+    removeError,
+    switchStatusOptimistic,
+} = deliveriesSlice.actions;
 
 export default deliveriesSlice.reducer;

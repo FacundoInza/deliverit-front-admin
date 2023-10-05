@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { StatusBadge } from '../statusBadge/StatusBadge';
 import { PiPackageThin } from 'react-icons/pi';
 import { RiDeleteBin6Line } from 'react-icons/ri';
-import Link from 'next/link';
-import axios from 'axios';
 import ModalDelete from '../../commons/modal/ModalDelete';
+import { api } from '../../../api/axiosInstance';
+import Link from 'next/link';
 
 interface CardProps {
     deliveryID: string;
@@ -49,9 +49,7 @@ export const DeliveryCard: React.FC<CardProps> = ({
         setIsDeleting(true);
 
         try {
-            await axios.delete(
-                `${process.env.NEXT_PUBLIC_BASE_URL}/api/order/${deliveryID}`
-            );
+            await api.delete(`/api/order/${deliveryID}`);
             setShowSuccessMessage(true);
         } catch (error) {
             setModalMessage((error as Error).message);
@@ -104,7 +102,7 @@ export const DeliveryCard: React.FC<CardProps> = ({
                 </div>
             )}
 
-            <Link href='/manage-packages'>
+            <Link href='/admin/manage-packages'>
                 <div className='bg-white border border-primary rounded-2xl p-1 flex justify-center items-center space-x-2 text-primary relative h-[90px] mb-2'>
                     <div className='ml-1 w-1/8'>
                         <span className={colorMap[status]}>
