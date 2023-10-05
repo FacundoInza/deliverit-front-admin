@@ -71,6 +71,16 @@ export const DeliveryCard: React.FC<CardProps> = ({
         onDeleteSuccess && onDeleteSuccess();
     };
 
+    const [isHovered, setIsHovered] = useState(false);
+
+    const handleMouseEnter = () => {
+        setIsHovered(true);
+    };
+
+    const handleMouseLeave = () => {
+        setIsHovered(false);
+    };
+
     return (
         <>
             {showModal && (
@@ -103,10 +113,19 @@ export const DeliveryCard: React.FC<CardProps> = ({
                     </div>
                     <div className='flex-grow flex-col just space-y-1 border-l border-dashed border-gray-400 mx-1 px-2'>
                         <h3 className='text-lg font-semibold'>
-                            {'#' + deliveryID.substring(0, 7)}
+                            {'#' + deliveryID.substring(17, 24)}
                         </h3>
                         <div className='mr-[40px]'>
-                            <p>{deliveryAddress}</p>
+                            <p>
+                                <span
+                                    onMouseEnter={handleMouseEnter}
+                                    onMouseLeave={handleMouseLeave}
+                                >
+                                    {isHovered
+                                        ? deliveryAddress
+                                        : `${deliveryAddress.slice(0, 40)}...`}
+                                </span>
+                            </p>
                         </div>
                     </div>
                     <div className='flex flex-col align-bottom absolute top-4 right-1'>

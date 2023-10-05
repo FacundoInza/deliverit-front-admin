@@ -33,6 +33,16 @@ const colorMap: ColorMap = {
         text: 'text-purple-100',
         ring: 'ring-purple-600',
     },
+    unassigned: {
+        bg: 'bg-gray-400',
+        text: 'text-purple-100',
+        ring: 'ring-purple-600',
+    },
+    assigned: {
+        bg: 'bg-green-500',
+        text: 'text-purple-100',
+        ring: 'ring-purple-600',
+    },
 };
 
 export const StatusBadge: React.FC<BadgeProps> = ({ status }) => {
