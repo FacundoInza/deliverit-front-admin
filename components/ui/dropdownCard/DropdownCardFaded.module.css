@@ -1,0 +1,8 @@
+.fadedStyle {
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        white 0px,
+        transparent 300px
+    );
+    mask-image: linear-gradient(to bottom, white 0px, transparent 300px);
+}

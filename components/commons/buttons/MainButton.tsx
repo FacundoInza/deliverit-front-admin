@@ -53,7 +53,6 @@ const MainButton: React.FC<ButtonProps> = ({
     );
 
     const handleClick = () => {
-        console.log('ya apreté el botón');
         if (onClick) {
             onClick();
         }

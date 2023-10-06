@@ -11,24 +11,45 @@ interface ColorMap {
         ring: string;
     };
 }
+
 const colorMap: ColorMap = {
     delivered: {
-        bg: 'bg-green-200',
+        bg: 'bg-delivered',
+        text: 'text-green-700',
+        ring: 'ring-green-600',
+    },
+    active: {
+        bg: 'bg-delivered',
         text: 'text-green-700',
         ring: 'ring-green-600',
     },
     'in progress': {
-        bg: 'bg-yellow-200',
+        bg: 'bg-inProgress',
+        text: 'text-yellow-700',
+        ring: 'ring-yellow-600',
+    },
+    'on-course': {
+        bg: 'bg-inProgress',
         text: 'text-yellow-700',
         ring: 'ring-yellow-600',
     },
     pending: {
-        bg: 'bg-gray-200',
+        bg: 'bg-pending',
         text: 'text-gray-700',
         ring: 'ring-gray-600',
     },
     inactive: {
-        bg: 'bg-purple-600',
+        bg: 'bg-gray-500',
+        text: 'text-purple-100',
+        ring: 'ring-purple-600',
+    },
+    unassigned: {
+        bg: 'bg-gray-400',
+        text: 'text-purple-100',
+        ring: 'ring-purple-600',
+    },
+    assigned: {
+        bg: 'bg-green-500',
         text: 'text-purple-100',
         ring: 'ring-purple-600',
     },
@@ -42,7 +63,7 @@ export const StatusBadge: React.FC<BadgeProps> = ({ status }) => {
     }
     return (
         <span
-            className={`text-lg font-bold inline-flex items-center rounded-full ${color.bg} px-5 py-1 text-xs font-medium ${color.text} ring-1 ring-inset ${color.ring}/20`}
+            className={`text-lg text-primary font-bold inline-flex items-center rounded-full ${color.bg} px-5 py-0.5 text-sm font-semibold ${color.text} `}
         >
             {status.toLocaleUpperCase()}
         </span>

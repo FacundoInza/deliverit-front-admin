@@ -20,12 +20,12 @@ export default function Error({
     }, [error]);
 
     return (
-        <html lang='en'>
-            <body className='bg-primary'>
-                <nav className='bg-primary'>
+        <>
+            <div className='min-h-screen bg-primary'>
+                <nav>
                     <Navbar isAuthenticated={true} />
                 </nav>
-                <div className='text-white bg-primary text-4xl font-bold text-center mt-48'>
+                <div className='text-white text-4xl font-bold text-center mt-48'>
                     Something went wrong
                     <button
                         onClick={
@@ -48,8 +48,8 @@ export default function Error({
                             objectFit='cover'
                         />
                     </div>
-                </div>{' '}
-            </body>
-        </html>
+                </div>
+            </div>
+        </>
     );
 }

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: deliverit-front-admin-deployment
+    labels:
+        app: deliverit-front-admin
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: deliverit-front-admin
+    template:
+        metadata:
+            labels:
+                app: deliverit-front-admin
+        spec:
+            containers:
+                - name: deliverit-front-admin
+                  image: 913891584254.dkr.ecr.sa-east-1.amazonaws.com/deliverit-front-admin:latest
+                  imagePullPolicy: Always
+                  ports:
+                      - containerPort: 3000
