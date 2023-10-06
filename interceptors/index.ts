@@ -1,4 +1,5 @@
 import axios from 'axios';
+import currentEnv from 'config';
 import { cookies } from 'next/dist/client/components/headers';
 
 // Interceptor para agregar un token de autenticación a las solicitudes
@@ -19,7 +20,7 @@ function handleNetworkErrors(error: Error) {
 
 // Configuración de Axios con los interceptores
 export const axiosInstance = axios.create({
-    baseURL: process.env.DELIVERIT_API_BASE_URL,
+    baseURL: currentEnv.DELIVERIT_API_BASE_URL,
     headers: {
         'Content-Type': 'application/json',
     },
