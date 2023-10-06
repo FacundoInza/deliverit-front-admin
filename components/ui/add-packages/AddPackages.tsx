@@ -18,6 +18,7 @@ import { useAppSelector } from '../../../hooks/useAppSelector';
 import { deliveries } from '../../../redux/features/deliveries/deliveriesSelector';
 import OptimisticUpdateFailureNotification from '../../../components/ui/modal/OptimisticUpdateFailureNotification';
 import { api } from '../../../api/axiosInstance';
+import currentEnv from 'config';
 
 dotenv.config();
 
@@ -47,7 +48,7 @@ export const AddPackages: FC = () => {
         setValue: setFormValue,
     } = useForm<FormsData>();
 
-    const apikey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
+    const apikey = currentEnv.NEXT_PUBLIC_GOOGLE_API_KEY;
 
     const handleChange = (newValue: OptionType | null) => {
         setValue(newValue);

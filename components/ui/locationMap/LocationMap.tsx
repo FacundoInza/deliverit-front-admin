@@ -6,9 +6,10 @@ import {
     InfoWindow,
 } from '@react-google-maps/api';
 import dotenv from 'dotenv';
+import currentEnv from 'config';
 
 dotenv.config();
-const apikey: string = process.env.NEXT_PUBLIC_GOOGLE_API_KEY!;
+const apikey: string = currentEnv.NEXT_PUBLIC_GOOGLE_API_KEY!;
 
 const containerStyle = {
     width: '100%',
