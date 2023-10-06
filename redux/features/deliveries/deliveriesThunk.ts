@@ -22,15 +22,15 @@ export const getDeliveries = createAsyncThunk(
 export const deleteDeliveries = createAsyncThunk(
     'deleteDeliveries',
     async (deletedDeliveryIdAndUserId: IDeleteDeliveriesParams, thunkAPI) => {
-        const response = await api.delete(
-            `/api/admin/delivery/delete/${deletedDeliveryIdAndUserId.deletedDeliveryId}`
+        await api.delete(
+            `/api/delivery/${deletedDeliveryIdAndUserId.deletedDeliveryId}`
         );
 
         await thunkAPI.dispatch(
             getDeliveries(deletedDeliveryIdAndUserId.userId)
         );
 
-        return response.data.data;
+        return;
     }
 );
 
@@ -40,6 +40,24 @@ export const switchWorkerStatus = createAsyncThunk(
         const response = await api.put(`/api/admin/edit-status/${workerId}`);
 
         await thunkAPI.dispatch(getDeliveries(workerId));
+
+        return response.data.data;
+    }
+);
+
+export const cancelDeliveries = createAsyncThunk(
+    'cancelDeliveries',
+    async (deletedDeliveryIdAndUserId: IDeleteDeliveriesParams, thunkAPI) => {
+        const response = await api.put(
+            `/api/delivery/${deletedDeliveryIdAndUserId.deletedDeliveryId}`,
+            {
+                status: 'cancelled',
+            }
+        );
+
+        await thunkAPI.dispatch(
+            getDeliveries(deletedDeliveryIdAndUserId.userId)
+        );
 
         return response.data.data;
     }
