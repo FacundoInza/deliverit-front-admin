@@ -19,6 +19,9 @@ import { deliveries } from '../../../redux/features/deliveries/deliveriesSelecto
 import OptimisticUpdateFailureNotification from '../../../components/ui/modal/OptimisticUpdateFailureNotification';
 import { api } from '../../../api/axiosInstance';
 import currentEnv from 'config';
+import { useAppDispatch } from '../../../hooks/useAppDispatch';
+import { getOrders } from 'redux/features/orders/ordersThunk';
+import { filteredDate } from 'redux/features/filtered-date/filteredDateSelector';
 
 dotenv.config();
 
@@ -40,6 +43,9 @@ export const AddPackages: FC = () => {
     const [packagesQuantity, setQuantity] = useState<number>(0);
 
     const { error } = useAppSelector(deliveries);
+    const selectedDate = useAppSelector(filteredDate);
+
+    const dispatch = useAppDispatch();
 
     const {
         register,
@@ -113,6 +119,7 @@ export const AddPackages: FC = () => {
         try {
             const response = await api.post('/api/order', dataToSend);
             console.log('Orden agregada con éxito:', response.data);
+            dispatch(getOrders({ pageNumber: 1, selectedDate: selectedDate }));
             router.back();
         } catch (error) {
             console.error('Error al agregar la orden:', error);
