@@ -74,7 +74,10 @@ const InitWorkDay: FC = () => {
                 <GeneralCard title='Orders'>
                     <div>
                         <p className='text-primary font-bold mb-3.5'>
-                            {orders.length} orders
+                            {/* {orders.length} of {data.totalItems} orders */}
+                            {orders.length > 0
+                                ? `${orders.length} of ${data.totalItems} orders`
+                                : 'No hay ordenes disponibles'}
                         </p>
                     </div>
                     {loading ? (
@@ -98,22 +101,23 @@ const InitWorkDay: FC = () => {
                                 />
                             ))
                     )}
-
-                    <div className='flex justify-center mt-4'>
-                        <ReactPaginate
-                            pageCount={pageCount}
-                            onPageChange={handlePageClick}
-                            containerClassName='flex'
-                            pageLinkClassName='mx-2 p-2 bg-gray-200 rounded'
-                            previousLinkClassName='mx-2 p-2 bg-white-200 rounded'
-                            nextLinkClassName='mx-2 p-2 bg-white-200 rounded'
-                            previousLabel={<span>&lt;</span>}
-                            nextLabel={<span>&gt;</span>}
-                            activeClassName={'active'}
-                            pageClassName={'bg-white'}
-                        />
-                    </div>
-
+                    {data.totalItems > 0 && (
+                        <div className='flex justify-center mt-4'>
+                            <ReactPaginate
+                                pageCount={pageCount}
+                                onPageChange={handlePageClick}
+                                containerClassName='flex'
+                                pageLinkClassName='mx-2 p-2 bg-gray-200 rounded'
+                                previousLinkClassName='mx-2 p-2 bg-white-200 rounded'
+                                nextLinkClassName='mx-2 p-2 bg-white-200 rounded'
+                                previousLabel={<span>&lt;</span>}
+                                nextLabel={<span>&gt;</span>}
+                                activeClassName={'active'}
+                                pageClassName={'bg-white'}
+                            />
+                        </div>
+                    )}
+                    ;
                     <div className='flex'>
                         <div className='ml-auto px-1 py-5 '>
                             <button

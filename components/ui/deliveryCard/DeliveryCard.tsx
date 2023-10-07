@@ -127,11 +127,13 @@ export const DeliveryCard: React.FC<CardProps> = ({
                         </div>
                     </div>
                     <div className='flex flex-col align-bottom absolute top-4 right-1'>
-                        <StatusBadge status={status} />
+                        <div className='mt-[-9px]'>
+                            <StatusBadge status={status} />
+                        </div>
                         {showCancel ? (
                             <div className='mt-2 flex flex-col justify-end'>
                                 <button
-                                    className='flex justify-end text-red-500 hover:text-red-700'
+                                    className='flex justify-end text-red-500 hover:text-red-700 mr-2 mt-1'
                                     onClick={handleDeleteClick}
                                     disabled={isDeleting}
                                 >
