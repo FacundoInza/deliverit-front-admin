@@ -26,10 +26,15 @@ const InitWorkDay: FC = () => {
     const { error } = useAppSelector(deliveries);
     const { loading, data } = useAppSelector(selectOrders);
     const selectedDate = useAppSelector(filteredDate);
+
     useEffect(() => {
         setOrders(data.data);
         setPageCount(data.totalPages);
         setCurrentPage(Number(data.page) - 1);
+        if (!data.data[0]._id) {
+            console.log('kkk');
+            dispatch(getOrders({ pageNumber: 1, selectedDate: selectedDate }));
+        }
     }, [data]);
 
     const onDeleteSuccess = async (pageNumber: number = currentPage + 1) => {
