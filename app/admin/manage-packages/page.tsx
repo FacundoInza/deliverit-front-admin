@@ -32,11 +32,10 @@ const InitWorkDay: FC = () => {
         setOrders(data.data);
         setPageCount(data.totalPages);
         setCurrentPage(Number(data.page) - 1);
-        if (!data.data[0]._id) {
-            console.log('kkk');
+        if (!data.data[0]) {
             dispatch(getOrders({ pageNumber: 1, selectedDate: selectedDate }));
         }
-    }, [data]);
+    }, []);
 
     const onDeleteSuccess = async (pageNumber: number = currentPage + 1) => {
         try {
@@ -67,6 +66,16 @@ const InitWorkDay: FC = () => {
 
     const totalPages = Math.ceil(data.totalItems / 10);
 
+    let ordersSubtitle;
+
+    if (data.data[0]) {
+        ordersSubtitle = `${currentPage * 10 + 1}-${
+            currentPage * 10 + orders.length
+        } of ${data.totalItems} order from ${
+            data.data[0].deliveryDate.split('T')[0]
+        }`;
+    }
+
     return (
         <>
             {error && <OptimisticUpdateFailureNotification />}
@@ -83,13 +92,7 @@ const InitWorkDay: FC = () => {
                     <div className='flex items-center justify-center h-full'>
                         <p className='text-primary font-bold mb-3.5 text-center'>
                             {orders.length > 0
-                                ? `${currentPage * 10 + 1}-${
-                                    currentPage * 10 + orders.length
-                                } of ${data.totalItems} orders from ${
-                                    new Date(data.data[0].deliveryDate)
-                                        .toISOString()
-                                        .split('T')[0]
-                                }`
+                                ? ordersSubtitle
                                 : 'No orders available'}
                         </p>
                     </div>
