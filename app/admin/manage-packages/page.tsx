@@ -120,7 +120,7 @@ const InitWorkDay: FC = () => {
                             <ReactPaginate
                                 previousLabel={<span>&lt;</span>}
                                 nextLabel={<span>&gt;</span>}
-                                pageRangeDisplayed={totalPages}
+                                pageRangeDisplayed={2}
                                 marginPagesDisplayed={2}
                                 onPageChange={handlePageClick}
                                 containerClassName='flex border border-gray-400 p-2 rounded'
