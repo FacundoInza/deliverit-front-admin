@@ -36,18 +36,14 @@ export const DeliveryCard: React.FC<CardProps> = ({
     const [isModalSuccess, setIsModalSuccess] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-
     const handleDeleteClick = async () => {
         setModalMessage('Are you sure you want to delete?');
         setIsModalSuccess(true);
         setShowModal(true);
     };
-
     const handleDeleteConfirm = async () => {
         setShowModal(false);
-
         setIsDeleting(true);
-
         try {
             await api.delete(`/api/order/${deliveryID}`);
             setShowSuccessMessage(true);
@@ -59,26 +55,20 @@ export const DeliveryCard: React.FC<CardProps> = ({
             setIsDeleting(false);
         }
     };
-
     const handleDeleteCancel = () => {
         setShowModal(false);
     };
-
     const handleSuccessMessageClose = () => {
         setShowSuccessMessage(false);
         onDeleteSuccess && onDeleteSuccess();
     };
-
     const [isHovered, setIsHovered] = useState(false);
-
     const handleMouseEnter = () => {
         setIsHovered(true);
     };
-
     const handleMouseLeave = () => {
         setIsHovered(false);
     };
-
     return (
         <>
             {showModal && (
@@ -89,7 +79,6 @@ export const DeliveryCard: React.FC<CardProps> = ({
                     onCancel={handleDeleteCancel}
                 />
             )}
-
             {showSuccessMessage && (
                 <div className='bg-green-200 text-green-800 p-2 text-center mb-2'>
                     <p>The order was deleted</p>
@@ -101,19 +90,22 @@ export const DeliveryCard: React.FC<CardProps> = ({
                     </button>
                 </div>
             )}
-
             <Link href='/admin/manage-packages'>
-                <div className='bg-white border border-primary rounded-2xl p-1 flex justify-center items-center space-x-2 text-primary relative h-[90px] mb-2'>
+                <div
+                    className={`bg-white border border-primary rounded-2xl p-1 flex justify-center items-center space-x-2 text-primary relative mb-2 ${
+                        isHovered ? 'h-auto' : 'h-[90px]'
+                    }`}
+                >
                     <div className='ml-1 w-1/8'>
                         <span className={colorMap[status]}>
                             <PiPackageThin size={40} />
                         </span>
                     </div>
-                    <div className='flex-grow flex-col just space-y-1 border-l border-dashed border-gray-400 mx-1 px-2'>
+                    <div className='flex-grow flex-col just space-y-1 border-l border-dashed border-gray-400 mx-1 px-2 '>
                         <h3 className='text-lg font-semibold'>
                             {'#' + deliveryID.substring(17, 24)}
                         </h3>
-                        <div className='mr-[40px]'>
+                        <div className='px-4 py-2 text-overflow-ellipsis'>
                             <p>
                                 <span
                                     onMouseEnter={handleMouseEnter}
@@ -121,17 +113,19 @@ export const DeliveryCard: React.FC<CardProps> = ({
                                 >
                                     {isHovered
                                         ? deliveryAddress
-                                        : `${deliveryAddress.slice(0, 40)}...`}
+                                        : `${deliveryAddress.slice(0, 20)}...`}
                                 </span>
                             </p>
                         </div>
                     </div>
                     <div className='flex flex-col align-bottom absolute top-4 right-1'>
-                        <StatusBadge status={status} />
+                        <div className='mt-[-9px]'>
+                            <StatusBadge status={status} />
+                        </div>
                         {showCancel ? (
                             <div className='mt-2 flex flex-col justify-end'>
                                 <button
-                                    className='flex justify-end text-red-500 hover:text-red-700'
+                                    className='flex justify-end text-red-500 hover:text-red-700 mr-2 mt-1 absolute top-5 right-0'
                                     onClick={handleDeleteClick}
                                     disabled={isDeleting}
                                 >

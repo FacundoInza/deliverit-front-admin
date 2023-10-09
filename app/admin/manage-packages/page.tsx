@@ -17,6 +17,7 @@ import { api } from '../../../api/axiosInstance';
 
 const InitWorkDay: FC = () => {
     const [orders, setOrders] = useState<IOrder[]>([]);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [pageCount, setPageCount] = useState<number>(0);
     const [currentPage, setCurrentPage] = useState<number>(0);
     const router = useRouter();
@@ -26,10 +27,15 @@ const InitWorkDay: FC = () => {
     const { error } = useAppSelector(deliveries);
     const { loading, data } = useAppSelector(selectOrders);
     const selectedDate = useAppSelector(filteredDate);
+
     useEffect(() => {
         setOrders(data.data);
         setPageCount(data.totalPages);
         setCurrentPage(Number(data.page) - 1);
+        if (!data.data[0]._id) {
+            console.log('kkk');
+            dispatch(getOrders({ pageNumber: 1, selectedDate: selectedDate }));
+        }
     }, [data]);
 
     const onDeleteSuccess = async (pageNumber: number = currentPage + 1) => {
@@ -59,6 +65,8 @@ const InitWorkDay: FC = () => {
         );
     };
 
+    const totalPages = Math.ceil(data.totalItems / 10);
+
     return (
         <>
             {error && <OptimisticUpdateFailureNotification />}
@@ -72,9 +80,17 @@ const InitWorkDay: FC = () => {
                 }}
             >
                 <GeneralCard title='Orders'>
-                    <div>
-                        <p className='text-primary font-bold mb-3.5'>
-                            {orders.length} orders
+                    <div className='flex items-center justify-center h-full'>
+                        <p className='text-primary font-bold mb-3.5 text-center'>
+                            {orders.length > 0
+                                ? `${currentPage * 10 + 1}-${
+                                    currentPage * 10 + orders.length
+                                } of ${data.totalItems} orders from ${
+                                    new Date(data.data[0].deliveryDate)
+                                        .toISOString()
+                                        .split('T')[0]
+                                }`
+                                : 'No orders available'}
                         </p>
                     </div>
                     {loading ? (
@@ -99,20 +115,24 @@ const InitWorkDay: FC = () => {
                             ))
                     )}
 
-                    <div className='flex justify-center mt-4'>
-                        <ReactPaginate
-                            pageCount={pageCount}
-                            onPageChange={handlePageClick}
-                            containerClassName='flex'
-                            pageLinkClassName='mx-2 p-2 bg-gray-200 rounded'
-                            previousLinkClassName='mx-2 p-2 bg-white-200 rounded'
-                            nextLinkClassName='mx-2 p-2 bg-white-200 rounded'
-                            previousLabel={<span>&lt;</span>}
-                            nextLabel={<span>&gt;</span>}
-                            activeClassName={'active'}
-                            pageClassName={'bg-white'}
-                        />
-                    </div>
+                    {data.totalItems > 0 && (
+                        <div className='flex justify-center mt-4'>
+                            <ReactPaginate
+                                previousLabel={<span>&lt;</span>}
+                                nextLabel={<span>&gt;</span>}
+                                pageRangeDisplayed={2}
+                                marginPagesDisplayed={2}
+                                onPageChange={handlePageClick}
+                                containerClassName='flex border border-gray-400 p-2 rounded'
+                                pageLinkClassName='mx-2 p-2 rounded'
+                                previousLinkClassName='mx-2 p-2 rounded'
+                                nextLinkClassName='mx-2 p-2 rounded'
+                                activeClassName={'bg-blue-500 h-6'}
+                                pageClassName={'bg-red'}
+                                pageCount={totalPages}
+                            />
+                        </div>
+                    )}
 
                     <div className='flex'>
                         <div className='ml-auto px-1 py-5 '>
