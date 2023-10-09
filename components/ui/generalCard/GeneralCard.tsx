@@ -24,11 +24,13 @@ export const GeneralCard: React.FC<GeneralCardProps> = ({
         <>
             <div className='mt-6 ml-4 mr-4 lg:ml-60 lg:mr-60 bg-white rounded-xl relative'>
                 <div className='bg-info py-4 px-4 rounded-t-xl h-20 flex items-center'>
-                    <button className='absolute' onClick={handleClick}>
-                        <div className='h-10 w-10 mr-2 text-primary'>
-                            <ArrowLeftCircleIcon />
-                        </div>
-                    </button>
+                    {title !== 'Delivery Management' && (
+                        <button className='absolute' onClick={handleClick}>
+                            <div className='h-10 w-10 mr-2 text-primary'>
+                                <ArrowLeftCircleIcon />
+                            </div>
+                        </button>
+                    )}
 
                     <p className='text-2xl font-semibold text-primary flex-grow ml-14'>
                         {title}{' '}

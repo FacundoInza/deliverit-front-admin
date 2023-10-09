@@ -3,6 +3,7 @@ import {
     deleteDeliveries,
     getDeliveries,
     switchWorkerStatus,
+    cancelDeliveries,
 } from './deliveriesThunk';
 import { IDeliveriesPerWorker } from '../../../interfaces';
 
@@ -74,6 +75,16 @@ const deliveriesSlice = createSlice({
             })
             .addCase(switchWorkerStatus.rejected, (state) => {
                 state.error = 'Switch status error';
+            })
+            .addCase(cancelDeliveries.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(cancelDeliveries.fulfilled, (state) => {
+                state.loading = false;
+            })
+            .addCase(cancelDeliveries.rejected, (state) => {
+                state.error = 'Cancel delivery error';
             });
     },
 });

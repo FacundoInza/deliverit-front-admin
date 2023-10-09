@@ -2,6 +2,7 @@ import React from 'react';
 import { StatusBadge } from '../statusBadge/StatusBadge';
 import { PiPackageThin } from 'react-icons/pi';
 import { RiDeleteBin6Line } from 'react-icons/ri';
+import { TiDeleteOutline } from 'react-icons/ti';
 
 interface CardProps {
     deliveryID: string;
@@ -52,6 +53,19 @@ export const DeliveryCardAdmin: React.FC<CardProps> = ({
                     {showCancel ? (
                         <div className='mt-2 flex flex-col justify-end'>
                             <button
+                                className='flex items-center justify-end text-red-500 hover:text-red-700'
+                                onClick={() =>
+                                    handleDeleteClick(status, deliveryID)
+                                }
+                                disabled={isDeleting}
+                            >
+                                Cancel
+                                <TiDeleteOutline color='red' size={30} />
+                            </button>
+                        </div>
+                    ) : (
+                        <div className='mt-2 flex flex-col justify-end'>
+                            <button
                                 className='flex justify-end text-red-500 hover:text-red-700'
                                 onClick={() =>
                                     handleDeleteClick(status, deliveryID)
@@ -61,8 +75,6 @@ export const DeliveryCardAdmin: React.FC<CardProps> = ({
                                 <RiDeleteBin6Line color='red' size={30} />
                             </button>
                         </div>
-                    ) : (
-                        ''
                     )}
                 </div>
             </div>

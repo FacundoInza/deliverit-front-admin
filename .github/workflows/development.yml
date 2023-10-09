@@ -31,7 +31,7 @@ jobs:
               uses: aws-actions/amazon-ecr-login@v1
 
             - name: Load secrets and save to app.env
-              run: aws secretsmanager get-secret-value --secret-id  deliverit-front-admin-enviroment --query SecretString --output text | jq -r 'to_entries|map("\(.key)=\(.value)")|.[]' > .env
+              run: aws secretsmanager get-secret-value --secret-id  prod/deliverit-front --query SecretString --output text | jq -r 'to_entries|map("\(.key)=\(.value)")|.[]' > .env
 
             - name: Build, tag, and push image to Amazon ECR
               env:
@@ -49,4 +49,3 @@ jobs:
               run: |
                   kubectl apply -f eks/aws-auth.yaml
                   kubectl apply -f eks/deployment.yaml
-                  kubectl apply -f eks/service.yaml

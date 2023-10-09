@@ -1,7 +1,7 @@
 'use client';
 
 import 'tailwindcss/tailwind.css';
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode } from 'react';
 
 interface DropdownCardProps {
     title: string;
@@ -18,37 +18,37 @@ export const DropdownCardFaded: React.FC<DropdownCardProps> = ({
     expanded,
     onExpand,
 }) => {
-    const [fadedActive, setFadedActive] = useState(true);
-    const [bottomReference, setBottomReference] = useState(304);
+    // const [fadedActive, setFadedActive] = useState(false);
+    // const [bottomReference, setBottomReference] = useState(304);
 
-    useEffect(() => {
-        if (expanded) {
-            const divElement = document.getElementById('fadedParent');
+    // useEffect(() => {
+    //     if (expanded) {
+    //         const divElement = document.getElementById('fadedParent');
 
-            divElement?.addEventListener('scroll', () => {
-                const visibleHeight = divElement.clientHeight;
-                const totalHeight = divElement.scrollHeight;
-                const scrollHeight = totalHeight - visibleHeight;
-                const bottom = scrollHeight - divElement.scrollTop;
+    //         divElement?.addEventListener('scroll', () => {
+    //             const visibleHeight = divElement.clientHeight;
+    //             const totalHeight = divElement.scrollHeight;
+    //             const scrollHeight = totalHeight - visibleHeight;
+    //             const bottom = scrollHeight - divElement.scrollTop;
 
-                if (bottom === 0) {
-                    setFadedActive(false);
-                } else {
-                    setFadedActive(true);
-                }
-                setBottomReference(608 - bottom);
-            });
-        }
-    }, [expanded]);
+    //             if (bottom === 0) {
+    //                 setFadedActive(false);
+    //             } else {
+    //                 setFadedActive(true);
+    //             }
+    //             setBottomReference(608 - bottom);
+    //         });
+    //     }
+    // }, [expanded]);
 
-    const gradientBottom = {
-        WebkitMaskImage: `linear-gradient(to bottom, white 0px, white ${
-            bottomReference - 130
-        }px, transparent ${bottomReference}px)`,
-        maskImage: `linear-gradient(to bottom, white ${
-            bottomReference - 130
-        }px, transparent ${bottomReference}px)`,
-    };
+    // const gradientBottom = {
+    //     WebkitMaskImage: `linear-gradient(to bottom, white 0px, white ${
+    //         bottomReference - 130
+    //     }px, transparent ${bottomReference}px)`,
+    //     maskImage: `linear-gradient(to bottom, white ${
+    //         bottomReference - 130
+    //     }px, transparent ${bottomReference}px)`,
+    // };
 
     return (
         <>
@@ -89,7 +89,7 @@ export const DropdownCardFaded: React.FC<DropdownCardProps> = ({
                     >
                         <ul
                             id='faded'
-                            style={fadedActive ? gradientBottom : {}}
+                            // style={fadedActive ? gradientBottom : {}}
                         >
                             {children}
                         </ul>

@@ -11,6 +11,7 @@ import { useAppSelector } from '../../../hooks/useAppSelector';
 import { useAppDispatch } from '../../../hooks/useAppDispatch';
 import {
     deleteDeliveries,
+    cancelDeliveries,
     getDeliveries,
     switchWorkerStatus,
 } from '../../../redux/features/deliveries/deliveriesThunk';
@@ -52,7 +53,11 @@ export const IndividualWorker: React.FC<IndividualWorkerProps> = ({
     const dispatch = useAppDispatch();
 
     const handleDeleteClick = async (status: string, deliveryId: string) => {
-        setModalMessage('Are you sure you want to delete?');
+        if (deliveryStatus === 'delivered') {
+            setModalMessage('Are you sure you want to delete?');
+        } else {
+            setModalMessage('Are you sure you want to cancel?');
+        }
         setIsModalSuccess(true);
         setShowDeleteModal(true);
         setDeliveryStatus(status);
@@ -67,7 +72,7 @@ export const IndividualWorker: React.FC<IndividualWorkerProps> = ({
             dispatch(deleteDeliveries({ deletedDeliveryId, userId }));
         } else {
             dispatch(deletePendingOrderFromReduxState(deletedDeliveryId));
-            dispatch(deleteDeliveries({ deletedDeliveryId, userId }));
+            dispatch(cancelDeliveries({ deletedDeliveryId, userId }));
         }
         setIsDeleting(false);
     };
@@ -239,7 +244,7 @@ export const IndividualWorker: React.FC<IndividualWorkerProps> = ({
                                     deliveryID={delivery.deliveryId}
                                     deliveryAddress={delivery.address}
                                     status='delivered'
-                                    showCancel={true}
+                                    showCancel={false}
                                     isDeleting={isDeleting}
                                     handleDeleteClick={handleDeleteClick}
                                 />
