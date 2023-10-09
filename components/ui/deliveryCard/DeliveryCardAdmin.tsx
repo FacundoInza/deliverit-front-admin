@@ -45,7 +45,7 @@ export const DeliveryCardAdmin: React.FC<CardProps> = ({
                         {'#' + deliveryID.slice(20, 24).toLocaleUpperCase()}
                     </h3>
                     <div className='mr-[40px]'>
-                        <p>{deliveryAddress}</p>
+                        <p>{`${deliveryAddress.slice(0, 20)}...`}</p>
                     </div>
                 </div>
                 <div className='flex flex-col align-bottom absolute top-4 right-1'>
