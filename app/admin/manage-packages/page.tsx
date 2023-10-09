@@ -32,6 +32,9 @@ const InitWorkDay: FC = () => {
         setOrders(data.data);
         setPageCount(data.totalPages);
         setCurrentPage(Number(data.page) - 1);
+    }, [data]);
+
+    useEffect(() => {
         if (!data.data[0]) {
             dispatch(getOrders({ pageNumber: 1, selectedDate: selectedDate }));
         }

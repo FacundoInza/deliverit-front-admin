@@ -20,7 +20,7 @@ export const DealerCard: FC<{ dealer: IDealer }> = ({ dealer }) => {
                 </div>
             </div>
 
-            <div className='w-40.27 h-40.27 bg-red-500 rounded-full flex items-center justify-center'>
+            <div className='w-40.27 h-40.27 rounded-full flex items-center justify-center'>
                 <CircularImage
                     src={workerImage}
                     alt='worker-image'
