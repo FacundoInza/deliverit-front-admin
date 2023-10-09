@@ -6,7 +6,7 @@ console.log('NODE_ENV', NODE_ENV);
 
 let currentEnv = DEVELOPMENT;
 
-console.log('currentEnv', currentEnv);
+console.log('currentEnv', currentEnv.NODE_ENV);
 
 if (NODE_ENV === 'production') {
     currentEnv = PRODUCTION;
