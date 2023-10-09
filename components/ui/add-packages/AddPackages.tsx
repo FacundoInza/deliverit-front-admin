@@ -18,10 +18,10 @@ import { useAppSelector } from '../../../hooks/useAppSelector';
 import { deliveries } from '../../../redux/features/deliveries/deliveriesSelector';
 import OptimisticUpdateFailureNotification from '../../../components/ui/modal/OptimisticUpdateFailureNotification';
 import { api } from '../../../api/axiosInstance';
-import currentEnv from 'config';
+import currentEnv from '../../../config';
 import { useAppDispatch } from '../../../hooks/useAppDispatch';
-import { getOrders } from 'redux/features/orders/ordersThunk';
-import { filteredDate } from 'redux/features/filtered-date/filteredDateSelector';
+import { getOrders } from '../../../redux/features/orders/ordersThunk';
+import { filteredDate } from '../../../redux/features/filtered-date/filteredDateSelector';
 
 dotenv.config();
 
