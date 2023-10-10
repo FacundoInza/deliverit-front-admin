@@ -17,7 +17,7 @@ import { filteredDate } from '../../../redux/features/filtered-date/filteredDate
 import { getWorkers } from '../../../redux/features/workers/workersThunk';
 
 const DealerPage: FC = () => {
-    const { loading, data } = useAppSelector(workers);
+    const { data, loading } = useAppSelector(workers);
     const { error } = useAppSelector(deliveries);
     const selectedDate = useAppSelector(filteredDate);
 
@@ -35,9 +35,9 @@ const DealerPage: FC = () => {
             {error && <OptimisticUpdateFailureNotification />}
 
             {!data[0].workerName ? (
-                <h1>Loading...</h1>
+                <h1 className='font-bold text-white mt-4 ml-4'>Loading...</h1>
             ) : loading ? (
-                <h1>Loading...</h1>
+                <h1 className='font-bold text-white mt-4 ml-4'>Loading...</h1>
             ) : (
                 <GeneralCard title='Workers'>
                     <Swiper
