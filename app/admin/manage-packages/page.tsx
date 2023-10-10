@@ -14,6 +14,7 @@ import { IOrder } from '../../../redux/features/orders/ordersSlice';
 import { getOrders } from '../../../redux/features/orders/ordersThunk';
 import { useAppDispatch } from '../../../hooks/useAppDispatch';
 import { api } from '../../../api/axiosInstance';
+import { Loader } from '../../../components/commons/loaders/Loader';
 
 const InitWorkDay: FC = () => {
     const [orders, setOrders] = useState<IOrder[]>([]);
@@ -100,8 +101,8 @@ const InitWorkDay: FC = () => {
                         </p>
                     </div>
                     {loading ? (
-                        <div className='text-primary font-extrabold'>
-                            Loading...
+                        <div className='flex justify-center'>
+                            <Loader />
                         </div>
                     ) : (
                         orders

@@ -23,6 +23,7 @@ import { getUser } from '../../../redux/features/user/userThunk';
 import { deliveries } from '../../../redux/features/deliveries/deliveriesSelector';
 import OptimisticUpdateFailureNotification from '../../../components/ui/modal/OptimisticUpdateFailureNotification';
 import { getOrders } from '../../../redux/features/orders/ordersThunk';
+import { Loader } from '../../commons/loaders/Loader';
 
 interface HomepageProps {
     dailyMetricsFromServer: IDailyMetrics;
@@ -147,8 +148,8 @@ export const Homepage: React.FC<HomepageProps> = ({
                 <div className='relative border-0.5 border-primary rounded-xl mt-2 ml-2 mr-2 py-2 px-4'>
                     <p className='text-primary font-extrabold my-2'>Details</p>
                     {loading ? (
-                        <div className='text-primary font-extrabold'>
-                            Loading...
+                        <div className='flex justify-center'>
+                            <Loader />
                         </div>
                     ) : (
                         <>
@@ -198,7 +199,7 @@ export const Homepage: React.FC<HomepageProps> = ({
                         </>
                     )}
 
-                    <div className='flex justify-center absolute right-12 top-3'>
+                    <div className='flex justify-center absolute right-12 top-3 z-20'>
                         <DateDropdownCard
                             startDate={selectedDate}
                             setDate={(date: string | undefined) => {
